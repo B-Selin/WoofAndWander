@@ -18,4 +18,5 @@ Tips and recommendations for enjoying activities with dogs
 - PostgreSQL
 - Google Maps API
 - Google Places API
-= Bootstrap
+- Bootstrap
+- Python
