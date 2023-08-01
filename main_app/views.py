@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Place, Pet, Profile
+from .forms import PetForm
 
 # Create your views here.
 def home(request):
@@ -29,17 +30,17 @@ def places_index(request):
   places = Place.objects.all()
   return render(request, 'places/index.html', {'places': places})
 
-# def user_profile(request):
-#   return render(request, 'profile.html')
 
 def profile_details(request, profile_id):
   profile = Profile.objects.get(id=profile_id)
   user = profile.user
   pets = Pet.objects.filter(profile=profile)
+  pet_form = PetForm()
   context = {
     'profile': profile,
     'user': user,
-    'pets': pets
+    'pets': pets,
+    'pet_form': pet_form,
   }
   return render(request, 'profiles/profile_details.html', context)
 
@@ -47,3 +48,11 @@ class PetCreate(LoginRequiredMixin, CreateView):
   model = Pet
   fields = ['name', 'breed']
 
+def add_pet(request, profile_id):
+  form = PetForm(request.POST)
+  if form.is_valid():
+    new_pet = form.save(commit=False)
+    new_pet.user = request.user
+    new_pet.profile_id = profile_id
+    new_pet.save()
+    return redirect('profile_details', profile_id=profile_id)

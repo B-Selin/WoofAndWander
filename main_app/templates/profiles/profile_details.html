@@ -2,8 +2,34 @@
 {% block content %}
 
 <h1>User Profile</h1>
-    <p>{{user.username}}</p>
-    <p>{{user.profile.city}}</p>
-    <p>{{user.profile.contributions}}</p>
-    <p>{{user.profile.pets}}</p>
+<p>{{user.username}}</p>
+<p>{{user.profile.city}}</p>
+<p>{{user.profile.contributions}}</p>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Breed</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pet in pets %}
+        <tr>
+            <td>{{pet.name}}</td>
+            <td>{{pet.breed}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<!-- Add links to edit user profile and add new pet -->
+
+<form action="{% url 'add_pet' profile.id%}" method="POST">
+    {% csrf_token %}
+    <!-- Render the inputs -->
+    {{ pet_form.as_p }}
+    <input type="submit" class="btn" value="Add Pet">
+</form>
+
+
+
 {% endblock %}
