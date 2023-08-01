@@ -6,4 +6,5 @@ from django.contrib.auth.forms import UserCreationForm
 urlpatterns = [
 	path('', views.home, name='home'),
     path('accounts/signup/', views.signup, name='signup'),
+    path('places/', views.places_index, name='index'), 
 ]
