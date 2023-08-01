@@ -10,10 +10,10 @@
 <body>
     <header>
         <nav>
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and user.profile %}
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'logout' %}">Log Out</a></li>
-                <li><a href="{% url 'profile_details' %}">Profile</a></li>
+                <li><a href="{% url 'profile_details' profile_id=user.profile.id %}">Profile</a></li>
             {% else %}
                 <li><a href="{% url 'login' %}">Log In</a></li>
                 <li><a href="{% url 'signup' %}">Sign Up</a></li>

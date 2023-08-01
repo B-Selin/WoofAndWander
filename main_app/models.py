@@ -13,7 +13,7 @@ class Profile(models.Model):
     contributions  = models.IntegerField(default=0)
 
     def get_absolute_url(self):
-        return reverse('profile_detail', kwargs={'profile_id': self.id})
+        return reverse('profile_details', kwargs={'profile_id': self.id})
 
 class Pet(models.Model):
     name = models.CharField(max_length=50)
