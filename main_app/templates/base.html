@@ -8,6 +8,14 @@
     <title>Woof and Wander</title>
 </head>
 <body>
-    
+    <header>
+        <nav>
+            <li><a href="{% url 'home'%}">Home</a></li>
+            <li><a href="{% url 'login'%}">Log In</a></li>
+            <li><a href="{% url 'signup'%}">Sign Up</a></li>
+        </nav>
+    </header>
+    {% block content %}
+    {% endblock %}
 </body>
 </html>
