@@ -17,6 +17,16 @@
         <tr>
             <td>{{pet.name}}</td>
             <td>{{pet.breed}}</td>
+            <td>
+                <form action="profiles/<int:profile_id>" method="POST">
+                    <button type="submit" class="btn">Remove</button>
+                </form>
+            </td>
+            <td>
+                <form action="profiles/<int:profile_id>" method="POST">
+                    <button type="submit" class="btn">Edit</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
