@@ -44,9 +44,9 @@ def profile_details(request, profile_id):
   }
   return render(request, 'profiles/profile_details.html', context)
 
-class PetCreate(LoginRequiredMixin, CreateView):
-  model = Pet
-  fields = ['name', 'breed']
+# class PetCreate(LoginRequiredMixin, CreateView):
+#   model = Pet
+#   fields = '__all__'
 
 def add_pet(request, profile_id):
   form = PetForm(request.POST)
@@ -56,3 +56,4 @@ def add_pet(request, profile_id):
     new_pet.profile_id = profile_id
     new_pet.save()
     return redirect('profile_details', profile_id=profile_id)
+  
