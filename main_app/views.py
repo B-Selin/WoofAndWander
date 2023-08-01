@@ -34,12 +34,14 @@ def places_index(request):
 
 def profile_details(request, profile_id):
   profile = Profile.objects.get(id=profile_id)
-#   pets = Pet.objects.filter(profile=profile)
+  user = profile.user
+  pets = Pet.objects.filter(profile=profile)
   context = {
     'profile': profile,
-    # 'pets': pets
+    'user': user,
+    'pets': pets
   }
-  return render(request, 'profiles/profile_details.html', )
+  return render(request, 'profiles/profile_details.html', context)
 
 class PetCreate(LoginRequiredMixin, CreateView):
   model = Pet
