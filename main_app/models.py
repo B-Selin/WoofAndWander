@@ -18,14 +18,17 @@ class Profile(models.Model):
     city = models.CharField(max_length=50)
     contributions  = models.IntegerField(default=0)
 
-
+    # pets = models.ManyToOneRel(Pet)
+    def __str__(self): 
+        return f'{self.user} ({self.city})'
     def get_absolute_url(self):
         return reverse('profile_details', kwargs={'profile_id': self.id})
 
 class Pet(models.Model):
     name = models.CharField(max_length=50)
     breed = models.CharField(max_length=50)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='pets')
     
-
+    def __str__(self): 
+        return f'{self.name} ({self.breed})'
 
