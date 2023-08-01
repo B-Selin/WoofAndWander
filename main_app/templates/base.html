@@ -14,9 +14,11 @@
         <nav>
             {% if user.is_authenticated %}
             <li><a href="{% url 'home' %}">Home</a></li>
+            <li>Add Place</li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
             <li><a href="{% url 'profile_details' request.user.profile.id %}">Profile</a></li>
             {% else %}
+            <li>Search</li>
             <li><a href="{% url 'login' %}">Log In</a></li>
             <li><a href="{% url 'signup' %}">Sign Up</a></li>
             {% endif %}
