@@ -12,6 +12,7 @@ urlpatterns = [
     path('pets/create/<int:profile_id>/', views.PetCreate.as_view(), name='pet_create'),
     path('pets/<int:pk>/edit/', views.PetEditView.as_view(), name='pet_edit'),
     path('pets/<int:pk>/delete/', views.PetDeleteView.as_view(), name='pet_delete'),    
+    path('places/<int:place_pk>/review/create/', views.ReviewCreate.as_view(), name='review_create'),    
     path('search_city/', views.search_city, name='search_city'),
     path('add_place/', views.add_place, name='add_place'),
 ]

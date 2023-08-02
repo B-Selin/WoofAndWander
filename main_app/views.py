@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Place, Pet, Profile
+from .models import Place, Pet, Profile, Review
 from .forms import PetForm
 from django.urls import reverse
 import os
@@ -135,3 +135,15 @@ def place_details(request, place_id):
      'place': place
   }
   return render(request, 'places/details.html', context)
+
+
+class ReviewCreate(CreateView):
+   model = Review
+   fields = ['comment', 'rating']
+
+   def form_valid(self, form):
+    form.instance.place = Place.objects.get(pk=self.kwargs['place_pk'])
+    return super().form_valid(form)
+
+   def get_success_url(self):
+      return reverse('place_details', kwargs={'place_id': self.object.place.id})
