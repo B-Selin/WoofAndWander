@@ -129,10 +129,18 @@ def add_place(request):
 
 
 def place_details(request, place_id):
-  place = Place.objects.get(id=place_id)
+  place = Place.objects.get(pk=place_id)
+  review = Review.objects.filter(place=place)
 
+  if request.method == 'POST':
+    review = Review()
+    review.place = place
+    review.profile = request.user.profile
+    review.save()
+    return redirect('place_details', place_id=place.pk)
   context = {
-     'place': place
+     'place': place,
+     'review': review
   }
   return render(request, 'places/details.html', context)
 
@@ -143,6 +151,7 @@ class ReviewCreate(CreateView):
 
    def form_valid(self, form):
     form.instance.place = Place.objects.get(pk=self.kwargs['place_pk'])
+    form.instance.profile = self.request.user.profile
     return super().form_valid(form)
 
    def get_success_url(self):
