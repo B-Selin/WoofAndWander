@@ -41,10 +41,11 @@ class Pet(models.Model):
         return f'{self.name} ({self.id})'
     
 class Review(models.Model):
-    review = models.TextField(max_length=150)
+    comment = models.TextField(max_length=150)
     rating = models.IntegerField(default=5)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
 
 
 

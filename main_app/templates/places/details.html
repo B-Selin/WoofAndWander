@@ -6,12 +6,21 @@
 <p>{{place.address}}</p>
 <p>{{place.category}}</p>
 
+<h3>Reviews</h3>
+{% for review in place.review_set.all  %}
+<div>
+    <p>{{review.profile.user.username}}</p>
+    <p>{{review.comment}}</p>
+    <p>{{review.rating}}</p>
+</div>
+{% endfor %}
 <form action="" method="POST">
+    {% csrf_token %}
     <label for="reviews">Reviews:</label>
     <textarea name="reviews" cols="30" rows="5"></textarea><br><br>
     <label for="rating">Rating:</label>
     <input type="number" min="1" max="5"><br><br>
-    <input type="submit" name="Add Review">
+    <button type="submit">Add Review</button>
 </form>
 
 {% endblock %}
