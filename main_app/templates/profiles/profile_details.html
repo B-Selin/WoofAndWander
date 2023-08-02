@@ -33,7 +33,7 @@
 </table>
 <!-- Add links to edit user profile and add new pet -->
 
-<form action="{% url 'add_pet' profile.id%}" method="POST">
+<form action="{% url 'pet_create' profile.id %}" method="POST">
     {% csrf_token %}
     <!-- Render the inputs -->
     {{ pet_form.as_p }}

@@ -1,3 +1,5 @@
+from django.forms.models import BaseModelForm
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -6,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Place, Pet, Profile
 from .forms import PetForm
+from django.urls import reverse
 
 # Create your views here.
 def home(request):
@@ -44,16 +47,15 @@ def profile_details(request, profile_id):
   }
   return render(request, 'profiles/profile_details.html', context)
 
-# class PetCreate(LoginRequiredMixin, CreateView):
-#   model = Pet
-#   fields = '__all__'
+class PetCreate(LoginRequiredMixin, CreateView):
+  model = Pet
+  fields = ['name', 'breed']
 
-def add_pet(request, profile_id):
-  form = PetForm(request.POST)
-  if form.is_valid():
-    new_pet = form.save(commit=False)
-    new_pet.user = request.user
-    new_pet.profile_id = profile_id
-    new_pet.save()
-    return redirect('profile_details', profile_id=profile_id)
+  def form_valid(self, form):
+    form.instance.profile = self.request.user.profile
+    return super().form_valid(form)
   
+  def get_success_url(self):
+    return reverse('profile_details', kwargs={'profile_id': self.object.profile.id})
+
+
