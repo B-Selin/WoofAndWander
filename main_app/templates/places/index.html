@@ -12,11 +12,18 @@
         </thead>
         <tbody>
             {% for place in places %}
-                <tr>
-                    <td>{{ place.name }}</td>
-                    <td>{{ place.address }}</td>
-                    <td>{{ place.category }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ place.name }}</td>
+                        <td>{{ place.address }}</td>
+                        <td>{{ place.category }}</td>
+                        <td>
+                            <form action="{% url 'place_details' place.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit">Details</button>
+                            </form>
+                        </td>
+                    </tr>
+            </a>
             {% endfor %}
         </tbody>
     </table>
