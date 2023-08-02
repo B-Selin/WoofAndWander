@@ -7,7 +7,13 @@ from django.dispatch import receiver
 # Create your models here.
 class Place(models.Model):
     name = models.CharField(max_length=50)
+    address = models.CharField(max_length=200)
+    category = models.CharField(max_length=50, default='')
+    city = models.CharField(max_length=255)
 
+    def __str__(self):
+        return f'{self.name} ({self.id})'
+    
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -16,11 +22,13 @@ def create_user_profile(sender, instance, created, **kwargs):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     city = models.CharField(max_length=50)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
     contributions  = models.IntegerField(default=0)
+    
 
-    # pets = models.ManyToOneRel(Pet)
     def __str__(self): 
-        return f'{self.user} ({self.city})'
+        return f'{self.user} ({self.id})'
     def get_absolute_url(self):
         return reverse('profile_details', kwargs={'profile_id': self.id})
 
@@ -30,5 +38,5 @@ class Pet(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='pets')
     
     def __str__(self): 
-        return f'{self.name} ({self.breed})'
+        return f'{self.name} ({self.id})'
 
