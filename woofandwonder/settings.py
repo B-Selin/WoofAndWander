@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import environ
+
+environ.Env()
+environ.Env.read_env()
 
 load_dotenv()
 GOOGLE_PLACES_API_KEY = os.environ.get('GOOGLE_PLACES_API_KEY')

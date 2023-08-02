@@ -39,6 +39,15 @@ class Pet(models.Model):
     
     def __str__(self): 
         return f'{self.name} ({self.id})'
+
+
+class Photo(models.Model):
+    url = models.CharField(max_length=200)
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name='photos')
+
+    def __str__(self):
+        return f'Photo for{self.pet_id} @{self.url}'
+
     
 class Review(models.Model):
     comment = models.TextField(max_length=150)
