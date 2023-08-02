@@ -18,13 +18,15 @@
             <td>{{pet.name}}</td>
             <td>{{pet.breed}}</td>
             <td>
-                <form action="profiles/<int:profile_id>" method="POST">
-                    <button type="submit" class="btn">Remove</button>
+                <form action="{% url 'pet_delete' pet.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Remove</button>
                 </form>
             </td>
             <td>
-                <form action="profiles/<int:profile_id>" method="POST">
-                    <button type="submit" class="btn">Edit</button>
+                <form action="{% url 'pet_edit' pet.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Edit</button>
                 </form>
             </td>
         </tr>
@@ -33,7 +35,7 @@
 </table>
 <!-- Add links to edit user profile and add new pet -->
 
-<form action="{% url 'add_pet' profile.id%}" method="POST">
+<form action="{% url 'pet_create' profile.id %}" method="POST">
     {% csrf_token %}
     <!-- Render the inputs -->
     {{ pet_form.as_p }}
