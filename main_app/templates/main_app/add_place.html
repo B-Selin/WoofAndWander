@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Add Place</h1>
+  <form id="place-form" method="POST" action="{% url 'add_place' %}">
+  {% csrf_token %}
+  <input id="place-search" type="text" name="place" placeholder="Search for a place">
+  <button type="submit">Submit</button>
+  </form>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const input = document.getElementById('place-search');
+      const userLat = {{ user_lat|default:"null" }};
+      const userLng = {{ user_lng|default:"null" }};
+      const userLatLng = new google.maps.LatLng(userLat, userLng);
+      const circle = new google.maps.Circle({
+        center: userLatLng,
+        radius: 50000,
+      });
+      const bounds = circle.getBounds();
+
+      const autocomplete = new google.maps.places.Autocomplete(input, {
+        types: ['establishment'],
+        bounds: bounds,
+        strictBounds: true,
+      });
+
+      google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        const place = autocomplete.getPlace();
+        const placeId = place.place_id;
+        const placeType = place.types[0]; 
+
+        const establishmentInput = document.createElement('input');
+        establishmentInput.type = 'hidden';
+        establishmentInput.name = 'place_id';
+        establishmentInput.value = placeId;
+        document.getElementById('place-form').appendChild(establishmentInput);
+
+        const placeTypeInput = document.createElement('input');
+        placeTypeInput.type = 'hidden';
+        placeTypeInput.name = 'place_type';
+        placeTypeInput.value = placeType;
+        document.getElementById('place-form').appendChild(placeTypeInput);
+      });
+
+      document.getElementById('place-form').addEventListener('submit', function(event) {
+      });
+    });
+    </script>
+{% endblock %}

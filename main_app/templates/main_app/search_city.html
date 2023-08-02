@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Search City</h1>
+  <form id="city-form" method="POST" action="{% url 'search_city' %}">
+    {% csrf_token %}
+    <input id="city-search" type="text" name="city" placeholder="Search for a city"> 
+    <input type="hidden" name="lat" id="city-lat">
+    <input type="hidden" name="lng" id="city-lng">
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const input = document.getElementById('city-search');
+      const autocomplete = new google.maps.places.Autocomplete(input, {types: ['(cities)']});
+
+      google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        const place = autocomplete.getPlace();
+        const lat = place.geometry.location.lat();
+        const lng = place.geometry.location.lng();
+
+        document.getElementById('city-lat').value = lat;
+        document.getElementById('city-lng').value = lng;
+      });
+
+      document.getElementById('city-form').addEventListener('submit', function(event) {
+      });
+    });
+  </script>
+{% endblock %}

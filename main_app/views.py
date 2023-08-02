@@ -9,7 +9,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Place, Pet, Profile
 from .forms import PetForm
 from django.urls import reverse
-
+import os
+import requests
+from django.contrib import messages
 
 # Create your views here.
 def home(request):
@@ -33,7 +35,6 @@ def signup(request):
 def places_index(request):
   places = Place.objects.all()
   return render(request, 'places/index.html', {'places': places})
-
 
 def profile_details(request, profile_id):
   profile = Profile.objects.get(id=profile_id)
@@ -69,3 +70,61 @@ class PetEditView(UpdateView):
 class PetDeleteView(DeleteView):
   model = Pet
   success_url = '/profiles/{profile_id}' 
+
+def search_city(request):
+  context = {
+      'GOOGLE_PLACES_API_KEY': os.environ.get('GOOGLE_PLACES_API_KEY'),
+  }
+  if request.method == 'POST':
+      city = request.POST.get('city')
+      lat = request.POST.get('lat')
+      lng = request.POST.get('lng')
+      if city and lat and lng:
+          profile = Profile.objects.get(user=request.user)
+          profile.city = city
+          profile.latitude = float(lat)
+          profile.longitude = float(lng)
+          profile.save()
+          return redirect('profile_details', profile_id=profile.id)
+
+  return render(request, 'main_app/search_city.html', context)
+
+@login_required
+def add_place(request):
+    if request.method == 'POST':
+        place_id = request.POST.get('place_id')
+        place_type = request.POST.get('place_type')
+        if place_id:
+            api_key = os.environ.get('GOOGLE_PLACES_API_KEY')
+            url = f'https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&key={api_key}'
+            response = requests.get(url)
+            data = response.json()
+
+            if data['status'] == 'OK':
+                place = data['result']
+                name = place['name']
+                address = place['formatted_address']
+                city = None
+
+                for component in place['address_components']:
+                    if 'locality' in component['types']:
+                        city = component['long_name']
+                        break
+
+                profile = Profile.objects.get(user=request.user)
+                new_place = Place(name=name, address=address, category=place_type, city=city)
+                new_place.save()
+
+                return redirect('index')
+
+            else:
+                messages.error(request, 'Failed to fetch establishment details.')
+
+    context = {
+        'user_city': request.user.profile.city,
+        'user_lat': request.user.profile.latitude,
+        'user_lng': request.user.profile.longitude,
+    }
+    return render(request, 'main_app/add_place.html', context)
+
+
