@@ -18,13 +18,15 @@
             <td>{{pet.name}}</td>
             <td>{{pet.breed}}</td>
             <td>
-                <form action="profiles/<int:profile_id>" method="POST">
-                    <button type="submit" class="btn">Remove</button>
+                <form action="{% url 'pet_delete' pet.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Remove</button>
                 </form>
             </td>
             <td>
-                <form action="profiles/<int:profile_id>" method="POST">
-                    <button type="submit" class="btn">Edit</button>
+                <form action="{% url 'pet_edit' pet.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Edit</button>
                 </form>
             </td>
         </tr>

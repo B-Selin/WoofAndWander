@@ -10,6 +10,7 @@ from .models import Place, Pet, Profile
 from .forms import PetForm
 from django.urls import reverse
 
+
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
@@ -58,4 +59,13 @@ class PetCreate(LoginRequiredMixin, CreateView):
   def get_success_url(self):
     return reverse('profile_details', kwargs={'profile_id': self.object.profile.id})
 
+class PetEditView(UpdateView):
+  model = Pet
+  fields = ['name', 'breed']
 
+  def get_success_url(self):
+    return reverse('profile_details', kwargs={'profile_id': self.object.profile.id})
+
+class PetDeleteView(DeleteView):
+  model = Pet
+  success_url = '/profiles/{profile_id}' 
