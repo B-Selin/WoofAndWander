@@ -7,6 +7,7 @@ urlpatterns = [
 	path('', views.home, name='home'),
     path('accounts/signup/', views.signup, name='signup'),
     path('places/', views.places_index, name='index'),
+    path('places/<int:place_id>', views.place_details, name='place_details'),
     path('profiles/<int:profile_id>', views.profile_details, name='profile_details'),
     path('pets/create/<int:profile_id>/', views.PetCreate.as_view(), name='pet_create'),
     path('pets/<int:pk>/edit/', views.PetEditView.as_view(), name='pet_edit'),

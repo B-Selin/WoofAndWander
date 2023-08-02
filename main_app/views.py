@@ -128,3 +128,10 @@ def add_place(request):
     return render(request, 'main_app/add_place.html', context)
 
 
+def place_details(request, place_id):
+  place = Place.objects.get(id=place_id)
+
+  context = {
+     'place': place
+  }
+  return render(request, 'places/details.html', context)
