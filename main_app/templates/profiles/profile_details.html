@@ -18,6 +18,22 @@
             <td>{{pet.name}}</td>
             <td>{{pet.breed}}</td>
             <td>
+                {% for photo in pet.photos.all %}
+                <img class="responsive-img card-panel" src="{{photo.url}}" alt="{{pet.name}}" width="100">
+                {% empty %}
+                <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+                {% endfor %}
+            </td>
+            <td>
+                <form action="{% url 'add_photo' pet.id %}" enctype="multipart/form-data" method="POST"
+                    class="card-panel">
+                    {% csrf_token %}
+                    <input type="file" name="photo-file">
+                    <br><br>
+                    <button type="submit" class="btn">Upload Photo</button>
+                </form>
+            </td>
+            <td>
                 <form action="{% url 'pet_delete' pet.id %}" method="post">
                     {% csrf_token %}
                     <button type="submit">Remove</button>
