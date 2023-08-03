@@ -36,8 +36,21 @@ def signup(request):
 
 
 def places_index(request):
+  selected_category = request.GET.get('selected_category', '')
   places = Place.objects.all()
-  return render(request, 'places/index.html', {'places': places})
+
+  if selected_category:
+     places = places.filter(category=selected_category)
+
+  categories = Place.objects.values_list('category', flat=True).distinct()
+  
+  context = {
+     'selected_category': selected_category,
+     'places': places,
+     'categories': categories,
+  }
+
+  return render(request, 'places/index.html', context)
 
 @login_required
 def profile_details(request, profile_id):
