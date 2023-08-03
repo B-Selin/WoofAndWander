@@ -160,14 +160,13 @@ def place_details(request, place_id):
   review = Review.objects.filter(place=place)
   is_favourite = Favourite.objects.filter(user=request.user, place=place).exists()
   avg_rating = place.review_set.aggregate(Avg('rating'))['rating__avg']
-  # added_by = place.added_by
+
 
   context = {
      'place': place,
      'review': review,
      'is_favourite': is_favourite,
      'avg_rating': avg_rating,
-    #  'added_by': added_by
   }
   return render(request, 'places/details.html', context)
 
