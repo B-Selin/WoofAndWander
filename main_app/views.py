@@ -40,7 +40,7 @@ def places_index(request):
 
 def profile_details(request, profile_id):
   profile = Profile.objects.get(id=profile_id)
-  user = profile.user
+  user = request.user
   pets = Pet.objects.filter(profile=profile)
   pet_form = PetForm()
   context = {
