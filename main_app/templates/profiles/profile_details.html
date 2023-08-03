@@ -19,7 +19,10 @@
             <td>{{pet.breed}}</td>
             <td>
                 {% for photo in pet.photos.all %}
-                <img class="responsive-img card-panel" src="{{photo.url}}" alt="{{pet.name}}" width="100">
+
+                <a href="{{photo.url}}" target="_blank">
+                    <img class="responsive-img thumbnail" src="{{photo.url}}" alt="{{pet.name}}" width="150">
+                </a>
                 {% empty %}
                 <div class="card-panel teal-text center-align">No Photos Uploaded</div>
                 {% endfor %}

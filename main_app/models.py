@@ -35,6 +35,7 @@ class Profile(models.Model):
 class Pet(models.Model):
     name = models.CharField(max_length=50)
     breed = models.CharField(max_length=50)
+    photos_limit = models.IntegerField(default=3)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='pets')
     
     def __str__(self): 
