@@ -8,12 +8,13 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Place, Pet, Profile, Review, Photo
+from .models import Place, Pet, Profile, Review, Photo, Favourite
 from .forms import PetForm
 from django.urls import reverse
 import os
 import requests
 from django.contrib import messages
+
 
 # Create your views here.
 def home(request):
@@ -43,11 +44,13 @@ def profile_details(request, profile_id):
   user = request.user
   pets = Pet.objects.filter(profile=profile)
   pet_form = PetForm()
+  favourites = Favourite.objects.filter(user=request.user)
   context = {
     'profile': profile,
     'user': user,
     'pets': pets,
     'pet_form': pet_form,
+    'favourites': favourites
   }
   return render(request, 'profiles/profile_details.html', context)
 
@@ -140,11 +143,28 @@ def place_details(request, place_id):
     review.profile = request.user.profile
     review.save()
     return redirect('place_details', place_id=place.pk)
+  
+  is_favourite = Favourite.objects.filter(user=request.user, place=place).exists()
+  
+
   context = {
      'place': place,
-     'review': review
+     'review': review,
+     'is_favourite': is_favourite,
   }
   return render(request, 'places/details.html', context)
+
+
+def add_favourite(request, place_id):
+    place = Place.objects.get(id=place_id)
+    Favourite.objects.create(user=request.user, place=place) 
+    return redirect('place_details', place_id=place_id)
+
+def remove_favourite(request, place_id):
+    place = Place.objects.get(id=place_id)
+    favourite = Favourite.objects.filter(user=request.user, place=place)
+    favourite.delete()
+    return redirect('place_details', place_id=place_id)
 
 
 class ReviewCreate(CreateView):
@@ -196,3 +216,5 @@ def delete_photo(request, pet_id, photo_id):
     s3.delete_object(Bucket=bucket, Key=key)
     photo.delete()
     return redirect('profile_details', profile_id=pet.profile.id)
+
+

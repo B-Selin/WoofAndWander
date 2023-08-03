@@ -7,13 +7,31 @@
 <p>{{place.category}}</p>
 
 <h3>Reviews</h3>
-{% for review in place.review_set.all  %}
+{% for review in place.review_set.all %}
 <div>
     <p>{{review.profile.user.username}}</p>
     <p>{{review.comment}}</p>
     <p>{{review.rating}}</p>
 </div>
 {% endfor %}
+
+{% if is_favourite %}
+
+<form action="{% url 'remove_favourite' place.id %}" method="POST">
+    {% csrf_token %}
+    <button type="submit">Remove from Favourites</button>
+</form>
+
+
+{% else %}
+
+<form action="{% url 'add_favourite' place.id %}" method="POST">
+    {% csrf_token %}
+    <button type="submit">Add to Favourites</button>
+</form>
+
+{% endif %}
+
 <form action="{% url 'review_create' place_pk=place.pk %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
