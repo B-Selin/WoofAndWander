@@ -73,5 +73,10 @@
 </form>
 {% endif %}
 
+<h3>Favorite Places</h3>
+
+{% for favourite in favourites %}
+<a href="{% url 'place_details' favourite.place.id %}">{{ favourite.place.name }}</a>
+{% endfor %}
 
 {% endblock %}

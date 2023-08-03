@@ -3,6 +3,8 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.conf import settings
+
 
 # Create your models here.
 class Place(models.Model):
@@ -25,7 +27,8 @@ class Profile(models.Model):
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
     contributions  = models.IntegerField(default=0)
-    
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    favourites = models.ManyToManyField(Place)
 
     def __str__(self): 
         return f'{self.user} ({self.id})'
@@ -57,5 +60,12 @@ class Review(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
 
+class Favourite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    place = models.ForeignKey(Place, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('user', 'place')
 
+    # def __str__(self):
+    #     return f'{self.place.name} favourited by {self.profile.user}'
