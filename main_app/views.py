@@ -14,6 +14,7 @@ from django.urls import reverse
 import os
 import requests
 from django.contrib import messages
+from django.db.models import Avg
 
 
 # Create your views here.
@@ -60,6 +61,7 @@ def profile_details(request, profile_id):
   pet_form = PetForm()
   favourites = Favourite.objects.filter(user=request.user)
   contributions = profile.contributions
+  
   context = {
     'profile': profile,
     'user': user,
@@ -137,6 +139,7 @@ def add_place(request):
                 new_place = Place(name=name, address=address, category=place_type, city=city)
                 # Increment contributions
                 increment_contributions(request.user)
+
                 new_place.save()
 
                 return redirect('index')
@@ -156,12 +159,15 @@ def place_details(request, place_id):
   place = Place.objects.get(pk=place_id)
   review = Review.objects.filter(place=place)
   is_favourite = Favourite.objects.filter(user=request.user, place=place).exists()
-  
+  avg_rating = place.review_set.aggregate(Avg('rating'))['rating__avg']
+  # added_by = place.added_by
 
   context = {
      'place': place,
      'review': review,
      'is_favourite': is_favourite,
+     'avg_rating': avg_rating,
+    #  'added_by': added_by
   }
   return render(request, 'places/details.html', context)
 
