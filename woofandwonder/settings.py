@@ -30,10 +30,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-t+7xjpm=iw!pr%!!z57$lf%$@lpu1bs(k+lp%@004x5wi+m^&d'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if os.environ['MODE'] == 'dev' else False
 
 ALLOWED_HOSTS = []
 
@@ -90,10 +90,12 @@ WSGI_APPLICATION = 'woofandwonder.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'woof',
+        'NAME': 'neondb',
+        'USER': 'B-Selin',
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': 'ep-young-lab-79119546.us-west-2.aws.neon.tech',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -139,3 +141,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Other settings above
+# Configure Django App for Heroku.
+import django_on_heroku
+django_on_heroku.settings(locals())
