@@ -59,12 +59,14 @@ def profile_details(request, profile_id):
   pets = Pet.objects.filter(profile=profile)
   pet_form = PetForm()
   favourites = Favourite.objects.filter(user=request.user)
+  contributions = profile.contributions
   context = {
     'profile': profile,
     'user': user,
     'pets': pets,
     'pet_form': pet_form,
-    'favourites': favourites
+    'favourites': favourites,
+    'contributions': contributions
   }
   return render(request, 'profiles/profile_details.html', context)
 
@@ -133,6 +135,8 @@ def add_place(request):
 
                 profile = Profile.objects.get(user=request.user)
                 new_place = Place(name=name, address=address, category=place_type, city=city)
+                # Increment contributions
+                increment_contributions(request.user)
                 new_place.save()
 
                 return redirect('index')
@@ -228,3 +232,7 @@ def delete_photo(request, pet_id, photo_id):
     return redirect('profile_details', profile_id=pet.profile.id)
 
 
+def increment_contributions(user):
+  profile = Profile.objects.get(user=user)
+  profile.contributions += 1
+  profile.save()
