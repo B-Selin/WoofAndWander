@@ -23,14 +23,19 @@
                     <img class="responsive-img thumbnail" src="{{photo.url}}" alt="{{pet.name}}" width="150">
                 </a>
                 <!-- add a delete button for evry photo -->
+
+                {% if user == profile.user %}
                 <form action="{% url 'delete_photo' pet.id photo.id %}" method="post">
                     {% csrf_token %}
                     <button type="submit">Remove Photo</button>
                 </form>
+                {% endif %}
+
                 {% empty %}
                 <div class="card-panel teal-text center-align">No Photos Uploaded</div>
                 {% endfor %}
             </td>
+            {% if user == profile.user %}
             <td>
                 <form action="{% url 'add_photo' pet.id %}" enctype="multipart/form-data" method="POST"
                     class="card-panel">
@@ -52,19 +57,21 @@
                     <button type="submit">Edit</button>
                 </form>
             </td>
+            {% endif %}
+
         </tr>
         {% endfor %}
     </tbody>
 </table>
 <!-- Add links to edit user profile and add new pet -->
-
+{% if user == profile.user %}
 <form action="{% url 'pet_create' profile.id %}" method="POST">
     {% csrf_token %}
     <!-- Render the inputs -->
     {{ pet_form.as_p }}
     <input type="submit" class="btn" value="Add Pet">
 </form>
-
+{% endif %}
 
 
 {% endblock %}
