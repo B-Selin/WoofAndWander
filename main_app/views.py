@@ -136,14 +136,6 @@ def add_place(request):
 def place_details(request, place_id):
   place = Place.objects.get(pk=place_id)
   review = Review.objects.filter(place=place)
-
-  if request.method == 'POST':
-    review = Review()
-    review.place = place
-    review.profile = request.user.profile
-    review.save()
-    return redirect('place_details', place_id=place.pk)
-  
   is_favourite = Favourite.objects.filter(user=request.user, place=place).exists()
   
 
