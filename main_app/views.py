@@ -34,11 +34,12 @@ def signup(request):
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
-@login_required
+
 def places_index(request):
   places = Place.objects.all()
   return render(request, 'places/index.html', {'places': places})
 
+@login_required
 def profile_details(request, profile_id):
   profile = Profile.objects.get(id=profile_id)
   user = request.user
@@ -65,17 +66,18 @@ class PetCreate(LoginRequiredMixin, CreateView):
   def get_success_url(self):
     return reverse('profile_details', kwargs={'profile_id': self.object.profile.id})
 
-class PetEditView(UpdateView):
+class PetEditView(LoginRequiredMixin, UpdateView):
   model = Pet
   fields = ['name', 'breed']
 
   def get_success_url(self):
     return reverse('profile_details', kwargs={'profile_id': self.object.profile.id})
 
-class PetDeleteView(DeleteView):
+class PetDeleteView(LoginRequiredMixin, DeleteView):
   model = Pet
   success_url = '/profiles/{profile_id}' 
 
+@login_required
 def search_city(request):
   context = {
       'GOOGLE_PLACES_API_KEY': os.environ.get('GOOGLE_PLACES_API_KEY'),
@@ -132,7 +134,7 @@ def add_place(request):
     }
     return render(request, 'main_app/add_place.html', context)
 
-
+@login_required
 def place_details(request, place_id):
   place = Place.objects.get(pk=place_id)
   review = Review.objects.filter(place=place)
@@ -146,12 +148,13 @@ def place_details(request, place_id):
   }
   return render(request, 'places/details.html', context)
 
-
+@login_required
 def add_favourite(request, place_id):
     place = Place.objects.get(id=place_id)
     Favourite.objects.create(user=request.user, place=place) 
     return redirect('place_details', place_id=place_id)
 
+@login_required
 def remove_favourite(request, place_id):
     place = Place.objects.get(id=place_id)
     favourite = Favourite.objects.filter(user=request.user, place=place)
@@ -159,7 +162,7 @@ def remove_favourite(request, place_id):
     return redirect('place_details', place_id=place_id)
 
 
-class ReviewCreate(CreateView):
+class ReviewCreate(LoginRequiredMixin, CreateView):
    model = Review
    fields = ['comment', 'rating']
 
@@ -172,6 +175,7 @@ class ReviewCreate(CreateView):
       return reverse('place_details', kwargs={'place_id': self.object.place.id})
    
 
+@login_required
 def add_photo(request, pet_id):
     pet = Pet.objects.get(id=pet_id)
   
@@ -199,6 +203,7 @@ def add_photo(request, pet_id):
 
     return redirect('profile_details', profile_id=request.user.profile.id)
 
+@login_required
 def delete_photo(request, pet_id, photo_id):
     photo = Photo.objects.get(id=photo_id)
     pet = photo.pet
