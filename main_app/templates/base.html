@@ -9,25 +9,27 @@
     <link rel="stylesheet" href="{% static 'output.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@300;400;700&display=swap"
+        rel="stylesheet">
     <title>Woof and Wander</title>
 </head>
 
 <body>
     <header class="fixed w-full bg-primary">
-        <ul
-            <nav class="container flex items-center justify-between">
-                {% if user.is_authenticated %}
-                <li><a href="{% url 'home' %}" class="text-light font-body">Home</a></li>
-                <li><a href="{% url 'index' %}" class="text-light font-body">Places</a></li>
-                <li><a href="{% url 'search_city' %}" class="text-light font-body">Search City</a>
-                <li><a href="{% url 'add_place' %}" class="text-light font-body">Add Place</a>
-                <li><a href="{% url 'logout' %}" class="text-light font-body">Log Out</a></li>
-                <li><a href="{% url 'profile_details' request.user.profile.id %}" class="text-light font-body">Profile</a></li>
-                {% else %}
-                <li><a href="{% url 'login' %}"class="text-light font-body">Log In</a></li>
-                <li><a href="{% url 'signup' %}"class="text-light font-body">Sign Up</a></li>
-                {% endif %}
+        <ul <nav class="container flex items-center justify-between">
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'home' %}" class="text-light font-body">Home</a></li>
+            <li><a href="{% url 'index' %}" class="text-light font-body">Places</a></li>
+            <li><a href="{% url 'search_city' %}" class="text-light font-body">Search City</a>
+            <li><a href="{% url 'add_place' %}" class="text-light font-body">Add Place</a>
+            <li><a href="{% url 'logout' %}" class="text-light font-body">Log Out</a></li>
+            <li><a href="{% url 'profile_details' request.user.profile.id %}" class="text-light font-body">Profile</a>
+            </li>
+            {% else %}
+            <li><a href="{% url 'login' %}" class="text-light font-body">Log In</a></li>
+            <li><a href="{% url 'signup' %}" class="text-light font-body">Sign Up</a></li>
+            {% endif %}
             </nav>
         </ul>
     </header>
@@ -35,5 +37,13 @@
     {% endblock %}
     <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_PLACES_API_KEY }}&libraries=places"></script>
 </body>
+
+
+<div id="footer">
+    <footer>
+        <p>&copy; 2023 Woof & Wander. All rights reserved.</p>
+    </footer>
+</div>
+
 
 </html>

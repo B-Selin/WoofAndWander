@@ -34,23 +34,39 @@ def signup(request):
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
-@login_required
-def places_index(request):
-  places = Place.objects.all()
-  return render(request, 'places/index.html', {'places': places})
 
+def places_index(request):
+  selected_category = request.GET.get('selected_category', '')
+  places = Place.objects.all()
+
+  if selected_category:
+     places = places.filter(category=selected_category)
+
+  categories = Place.objects.values_list('category', flat=True).distinct()
+  
+  context = {
+     'selected_category': selected_category,
+     'places': places,
+     'categories': categories,
+  }
+
+  return render(request, 'places/index.html', context)
+
+@login_required
 def profile_details(request, profile_id):
   profile = Profile.objects.get(id=profile_id)
   user = request.user
   pets = Pet.objects.filter(profile=profile)
   pet_form = PetForm()
   favourites = Favourite.objects.filter(user=request.user)
+  contributions = profile.contributions
   context = {
     'profile': profile,
     'user': user,
     'pets': pets,
     'pet_form': pet_form,
-    'favourites': favourites
+    'favourites': favourites,
+    'contributions': contributions
   }
   return render(request, 'profiles/profile_details.html', context)
 
@@ -65,17 +81,18 @@ class PetCreate(LoginRequiredMixin, CreateView):
   def get_success_url(self):
     return reverse('profile_details', kwargs={'profile_id': self.object.profile.id})
 
-class PetEditView(UpdateView):
+class PetEditView(LoginRequiredMixin, UpdateView):
   model = Pet
   fields = ['name', 'breed']
 
   def get_success_url(self):
     return reverse('profile_details', kwargs={'profile_id': self.object.profile.id})
 
-class PetDeleteView(DeleteView):
+class PetDeleteView(LoginRequiredMixin, DeleteView):
   model = Pet
   success_url = '/profiles/{profile_id}' 
 
+@login_required
 def search_city(request):
   context = {
       'GOOGLE_PLACES_API_KEY': os.environ.get('GOOGLE_PLACES_API_KEY'),
@@ -118,6 +135,8 @@ def add_place(request):
 
                 profile = Profile.objects.get(user=request.user)
                 new_place = Place(name=name, address=address, category=place_type, city=city)
+                # Increment contributions
+                increment_contributions(request.user)
                 new_place.save()
 
                 return redirect('index')
@@ -132,7 +151,7 @@ def add_place(request):
     }
     return render(request, 'main_app/add_place.html', context)
 
-
+@login_required
 def place_details(request, place_id):
   place = Place.objects.get(pk=place_id)
   review = Review.objects.filter(place=place)
@@ -146,12 +165,13 @@ def place_details(request, place_id):
   }
   return render(request, 'places/details.html', context)
 
-
+@login_required
 def add_favourite(request, place_id):
     place = Place.objects.get(id=place_id)
     Favourite.objects.create(user=request.user, place=place) 
     return redirect('place_details', place_id=place_id)
 
+@login_required
 def remove_favourite(request, place_id):
     place = Place.objects.get(id=place_id)
     favourite = Favourite.objects.filter(user=request.user, place=place)
@@ -159,7 +179,7 @@ def remove_favourite(request, place_id):
     return redirect('place_details', place_id=place_id)
 
 
-class ReviewCreate(CreateView):
+class ReviewCreate(LoginRequiredMixin, CreateView):
    model = Review
    fields = ['comment', 'rating']
 
@@ -172,6 +192,7 @@ class ReviewCreate(CreateView):
       return reverse('place_details', kwargs={'place_id': self.object.place.id})
    
 
+@login_required
 def add_photo(request, pet_id):
     pet = Pet.objects.get(id=pet_id)
   
@@ -199,6 +220,7 @@ def add_photo(request, pet_id):
 
     return redirect('profile_details', profile_id=request.user.profile.id)
 
+@login_required
 def delete_photo(request, pet_id, photo_id):
     photo = Photo.objects.get(id=photo_id)
     pet = photo.pet
@@ -210,3 +232,7 @@ def delete_photo(request, pet_id, photo_id):
     return redirect('profile_details', profile_id=pet.profile.id)
 
 
+def increment_contributions(user):
+  profile = Profile.objects.get(user=user)
+  profile.contributions += 1
+  profile.save()
