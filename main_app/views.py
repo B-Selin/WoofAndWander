@@ -161,6 +161,12 @@ class ReviewCreate(CreateView):
    
 
 def add_photo(request, pet_id):
+    pet = Pet.objects.get(id=pet_id)
+  
+    if pet.photos.count() >= pet.photos_limit:
+      messages.error(request, 'Photo limit reached')
+      return redirect('profile_details', profile_id=request.user.profile.id) 
+
     # photo-file will be the "name" attribute on the <input type="file">
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
