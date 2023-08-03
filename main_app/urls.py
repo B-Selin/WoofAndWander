@@ -14,6 +14,8 @@ urlpatterns = [
     path('pets/<int:pk>/delete/', views.PetDeleteView.as_view(), name='pet_delete'),
     # route for the pet add_photo
     path('pets/<int:pet_id>/add_photo/', views.add_photo, name='add_photo'),
+    # route for the pet delete_photo
+    path('pets/<int:pet_id>/delete_photo/<int:photo_id>/', views.delete_photo, name='delete_photo'),
     path('places/<int:place_pk>/review/create/', views.ReviewCreate.as_view(), name='review_create'),    
     path('search_city/', views.search_city, name='search_city'),
     path('add_place/', views.add_place, name='add_place'),

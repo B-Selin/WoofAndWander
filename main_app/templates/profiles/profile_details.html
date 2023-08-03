@@ -19,10 +19,14 @@
             <td>{{pet.breed}}</td>
             <td>
                 {% for photo in pet.photos.all %}
-
                 <a href="{{photo.url}}" target="_blank">
                     <img class="responsive-img thumbnail" src="{{photo.url}}" alt="{{pet.name}}" width="150">
                 </a>
+                <!-- add a delete button for evry photo -->
+                <form action="{% url 'delete_photo' pet.id photo.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Remove Photo</button>
+                </form>
                 {% empty %}
                 <div class="card-panel teal-text center-align">No Photos Uploaded</div>
                 {% endfor %}

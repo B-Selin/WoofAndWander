@@ -187,3 +187,12 @@ def add_photo(request, pet_id):
 
     return redirect('profile_details', profile_id=request.user.profile.id)
 
+def delete_photo(request, pet_id, photo_id):
+    photo = Photo.objects.get(id=photo_id)
+    pet = photo.pet
+    s3 = boto3.client('s3')
+    key = photo.url.split('/')[-1]
+    bucket = os.environ['S3_BUCKET']
+    s3.delete_object(Bucket=bucket, Key=key)
+    photo.delete()
+    return redirect('profile_details', profile_id=pet.profile.id)
