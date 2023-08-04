@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'woofandwonder.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'neondb',
+        'NAME': 'woofandWander',
         'USER': 'B-Selin',
         'PASSWORD': os.environ['DB_PASSWORD'],
         'HOST': 'ep-young-lab-79119546.us-west-2.aws.neon.tech',
