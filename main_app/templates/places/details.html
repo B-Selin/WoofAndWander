@@ -2,7 +2,12 @@
 {% block content %}
 
 <h1>Place Details</h1>
-<p>{{place.name}}</p>
+<h3>{{ place.name }}
+    {% if avg_rating %}
+    ({{ avg_rating|floatformat }}/5)
+    {% endif %}
+</h3>
+
 <p>{{place.address}}</p>
 <p>{{place.category}}</p>
 
@@ -12,6 +17,12 @@
     <p>{{review.profile.user.username}}</p>
     <p>{{review.comment}}</p>
     <p>{{review.rating}}</p>
+    {% if request.user == review.profile.user %}
+    <form action="{% url 'review_delete' pk=review.pk %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">Delete Review</button>
+    </form>
+    {% endif %}
 </div>
 {% endfor %}
 
