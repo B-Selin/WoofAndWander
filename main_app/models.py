@@ -27,7 +27,6 @@ class Profile(models.Model):
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
     contributions  = models.IntegerField(default=0)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
     favourites = models.ManyToManyField(Place)
 
     def __str__(self): 
