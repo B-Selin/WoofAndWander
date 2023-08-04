@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="w-full h-full bg-light flex flex-col items-center justify-center mb:h-screen dp:flex-row dp:items-center mb:pt-[66px] dp:pt-[130px]">
+    <img class="w-72 h-72 mb:w-72 mb:h-72 dp:w-[400px] dp:h-[400px]" src="{% static 'src/images/SecondaryLogoPrimary.svg' %}" alt="Logo">
+    <div class="mb:mb-8 dp:mr-16 dp:ml-2">
+        <div class="text-center dp:text-left text-primary mb:text-h3 dp:text-h1 font-logo">Woof & Wander</div>
+        <div class="hidden dp:block font-header text-dark text-h6">Your pet's passport to adventure</div>
+    </div>
+    <div class="flex flex-col space-y-4">
+        <a href="{% url 'login' %}" class="w-64 h-12 inline-flex items-center justify-center bg-accent rounded-lg text-light text-base font-bold">LOG IN</a>
+        <a href="{% url 'signup' %}" class="w-64 h-12 inline-flex items-center justify-center bg-secondary rounded-lg text-light text-base font-bold">SIGN UP</a>
+    </div>
+</div>
+{% endblock %}
