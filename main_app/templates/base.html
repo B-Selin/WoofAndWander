@@ -9,17 +9,16 @@
     <link rel="stylesheet" href="{% static 'output.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@300;400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap" rel="stylesheet">
     <title>Woof and Wander</title>
 </head>
 
 <body>
-    <header class="fixed w-full bg-primary">
-        <ul <nav class="container flex items-center justify-between">
+    <header class="fixed w-full bg-primary mb:h-[66px] dp:h-[100px] mb:hidden dp:block mb:bottom-0 dp:top-0">
+        <ul>
+            <nav class="container flex items-center justify-between">
             {% if user.is_authenticated %}
-            <li><a href="{% url 'home' %}" class="text-light font-body">Home</a></li>
             <li><a href="{% url 'index' %}" class="text-light font-body">Places</a></li>
             <li><a href="{% url 'search_city' %}" class="text-light font-body">Search City</a>
             <li><a href="{% url 'add_place' %}" class="text-light font-body">Add Place</a>
@@ -35,15 +34,11 @@
     </header>
     {% block content %}
     {% endblock %}
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_PLACES_API_KEY }}&libraries=places"></script>
-</body>
-
-
-<div id="footer">
-    <footer>
+    <footer class="mb:hidden dp:block bg-light font-body-sm">
         <p>&copy; 2023 Woof & Wander. All rights reserved.</p>
     </footer>
-</div>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_PLACES_API_KEY }}&libraries=places"></script>
+</body>
 
 
 </html>

@@ -21,8 +21,11 @@ from django.db.models import Avg
 
 
 # Create your views here.
-def home(request):
-    return render(request, 'home.html')
+# def home(request):
+#     return render(request, 'home.html')
+
+def landing(request):
+  return render(request, 'landing.html')
 
 def signup(request):
   error_message = ''
@@ -37,7 +40,6 @@ def signup(request):
   form = UserCreationForm()
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
-
 
 def places_index(request):
   selected_category = request.GET.get('selected_category', '')
