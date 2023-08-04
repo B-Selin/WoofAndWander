@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% block mobile_header_class %}
+  mb:hidden dp:block
+{% endblock %}
 {% block content %}
 {% load static %}
 <div class="w-full h-full bg-light flex flex-col items-center justify-center mb:h-screen dp:flex-row dp:items-center dp:space-x-8 mb:pt-[66px] dp:pt-[130px]">

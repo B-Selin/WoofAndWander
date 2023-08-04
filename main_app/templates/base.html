@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <header class="fixed w-full bg-primary mb:h-[66px] dp:h-[100px] mb:hidden dp:block mb:bottom-0 dp:top-0">
+    <header class="fixed w-full bg-primary mb:h-[66px] dp:h-[100px] mb:bottom-0 dp:top-0 {% block mobile_header_class %}{% endblock %}">
         <ul>
             <nav class="container flex items-center justify-between">
             {% if user.is_authenticated %}
