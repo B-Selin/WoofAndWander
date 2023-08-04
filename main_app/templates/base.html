@@ -14,8 +14,8 @@
     <title>Woof and Wander</title>
 </head>
 
-<body>
-    <header class="fixed w-full h-24 bg-primary mb:bottom-0 dp:top-0 {% block mobile_header_class %}{% endblock %} text-light">
+<body class="bg-light">
+    <header class="sticky w-full h-24 bg-primary{% block mobile_header_class %}{% endblock %} text-light">
         <nav class="flex justify-between items-center px-4">
             <div class="flex items-center">
                 <img src="{% static 'src/images/SmallLogoLight.svg' %}" alt="Logo" class="object-contain mb:max-h-[56px] dp:max-h-[88px]">
@@ -60,13 +60,15 @@
             </div>
         </nav>
     </header>
-    <div class="flex-1 {% block content_container_class %}{% endblock %}">
-        {% block content %}
-        {% endblock %}
-    </div>
-    <footer class="mb:hidden dp:block bg-light font-body-sm">
-        <p>&copy; 2023 Woof & Wander. All rights reserved.</p>
-    </footer>
+    <div class="page-container flex flex-col min-h-screen">
+        <div class="main-content flex-grow">
+          {% block content %}
+          {% endblock %}
+        </div>
+        <footer class="mb:hidden dp:block font-body-sm">
+          <p>&copy; 2023 Woof & Wander. All rights reserved.</p>
+        </footer>
+      </div>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_PLACES_API_KEY }}&libraries=places"></script>
 </body>
 

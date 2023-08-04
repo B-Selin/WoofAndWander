@@ -932,6 +932,10 @@ select {
   flex: 1 1 0%;
 }
 
+.flex-grow {
+  flex-grow: 1;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -1285,6 +1289,10 @@ select {
 }
 
 @media (min-width: 768px) {
+  .dp\:sticky {
+    position: sticky;
+  }
+
   .dp\:top-0 {
     top: 0px;
   }
