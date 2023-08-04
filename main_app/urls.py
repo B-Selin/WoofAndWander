@@ -20,6 +20,7 @@ urlpatterns = [
     # route for the pet delete_photo
     path('pets/<int:pet_id>/delete_photo/<int:photo_id>/', views.delete_photo, name='delete_photo'),
     path('places/<int:place_pk>/review/create/', views.ReviewCreate.as_view(), name='review_create'),    
+    path('places/<int:pk>/review/delete/', views.ReviewDelete.as_view(), name='review_delete'),    
     path('search_city/', views.search_city, name='search_city'),
     path('add_place/', views.add_place, name='add_place'),
 ]

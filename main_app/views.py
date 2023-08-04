@@ -1,5 +1,7 @@
+from typing import Any, Optional
 import uuid
 import boto3
+from django.db import models
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -8,6 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseForbidden
 from .models import Place, Pet, Profile, Review, Photo, Favourite
 from .forms import PetForm
 from django.urls import reverse
@@ -195,6 +198,20 @@ class ReviewCreate(LoginRequiredMixin, CreateView):
 
    def get_success_url(self):
       return reverse('place_details', kwargs={'place_id': self.object.place.id})
+   
+
+class ReviewDelete(LoginRequiredMixin, DeleteView):
+   model = Review
+
+   def get_success_url(self):
+      return reverse('place_details', kwargs={'place_id': self.object.place.id})
+   
+   def get_object(self, queryset=None):
+      obj = super().get_object(queryset=queryset)
+
+      if obj.profile.user != self.request.user:
+         raise HttpResponseForbidden("You do not have permission to delete this review.")
+      return obj
    
 
 @login_required
