@@ -1142,12 +1142,35 @@ select {
   border-top-right-radius: 0.5rem;
 }
 
+.rounded-b-lg {
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.rounded-b {
+  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+
 .border {
   border-width: 1px;
 }
 
+.border-2 {
+  border-width: 2px;
+}
+
+.border-8 {
+  border-width: 8px;
+}
+
 .border-none {
   border-style: none;
+}
+
+.border-dark {
+  --tw-border-opacity: 1;
+  border-color: rgb(27 10 10 / var(--tw-border-opacity));
 }
 
 .bg-accent {
@@ -1321,6 +1344,10 @@ select {
 
 .outline-dashed {
   outline-style: dashed;
+}
+
+.outline-1 {
+  outline-width: 1px;
 }
 
 .blur {

@@ -15,7 +15,7 @@
 </head>
 
 <body class="bg-light">
-    <header class="fixed mb:bottom-0 dp:top-0 rounded-t-lg dp:rounded-b-lg dp:rounded-t-none w-full h-24 bg-primary{% block mobile_header_class %}{% endblock %} text-light">
+    <header class="sticky rounded-b-lg w-full h-24 bg-primary text-light{% block mobile_header_class %}{% endblock %}">
         <nav class="flex justify-between items-center h-24 px-4">
             <div class="flex items-center">
                 <img src="{% static 'src/images/SmallLogoLight.svg' %}" alt="Logo" class="object-contain mb:max-h-[64px] dp:max-h-[80px]">
@@ -24,7 +24,7 @@
             <div class="dp:hidden">
                 <ul class="flex space-x-24 font-body text-body-lg font-bold drop-shadow">
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'index' %}"">PLACES</a></li>
+                    <li><a href="{% url 'index' %}">PLACES</a></li>
                     <li><a href="{% url 'profile_details' request.user.profile.id %}">PROFILE</a></li>
                     {% else %}
                     <li><a href="{% url 'login' %}" >LOG IN</a></li>
@@ -32,21 +32,21 @@
                     {% endif %}
                 </ul>
             </div>
-            <div class="hidden dp:flex flex-col justify-center">
+            <div class="hidden dp:flex flex-col justify-center relative">
                 {% if user.is_authenticated %}
-                <ul id="placesDropdown" class="flex items-center h-auto space-x-4 font-body text-body-lg font-bold drop-shadow">
+                <ul id="placesDropdown" class="flex items-center h-auto space-x-4 font-body text-body-lg font-bold drop-shadow relative">
                     <li><a href="{% url 'home' %}">HOME</a></li>
                     <li class="relative group">
-                        <a class="cursor-pointer" onmouseover="openDropdown('placesDropdown')" onmouseout="document.getElementById('placesDropdown').classList.remove('block')">PLACES</a>
-                        <ul class="absolute hidden px-4 py-2 group-hover:block shadow-lg rounded text-body bg-secondary text-dark divide-y divide-dark whitespace-nowrap mt-6">
+                        <a class="cursor-pointer" id="placesDropdownTrigger">PLACES</a>
+                        <ul id="placesDropdownMenu" class="absolute hidden px-4 py-2 shadow-lg rounded text-body bg-light text-dark divide-y divide-dark whitespace-nowrap mt-6 border border-dark">
                             <li><a href="{% url 'index' %}">VIEW ALL</a></li>
                             <li><a href="{% url 'add_place' %}">ADD PLACE</a></li>
                         </ul>
                     </li>                    
                     <li class="relative group">
-                        <img src="{% static 'src/images/avatar.svg' %}" alt="Profile" class="w-16 h-16 rounded-full cursor-pointer" onmouseover="openDropdown('placesDropdown')" onmouseout="document.getElementById('placesDropdown').classList.remove('block')"></a>
-                        <ul id="placesDropdown" class="absolute hidden px-4 py-2 group-hover:block shadow-lg rounded text-body bg-secondary text-dark divide-y divide-dark whitespace-nowrap mt-2 right-0">
-                            <li><a href="{% url 'profile_details' request.user.profile.id %}" class="hover:opacity-90">VIEW PROFILE</a></li>
+                        <img src="{% static 'src/images/avatar.svg' %}" alt="Profile" class="w-16 h-16 rounded-full cursor-pointer" id="profileDropdownTrigger">
+                        <ul id="profileDropdownMenu" class="absolute hidden px-4 py-2 shadow-lg rounded text-body bg-light text-dark divide-y divide-dark whitespace-nowrap mt-2 right-0 border border-dark">
+                            <li><a href="{% url 'profile_details' request.user.profile.id %}">VIEW PROFILE</a></li>
                             <li><a href="{% url 'logout' %}">LOG OUT</a></li>
                         </ul>
                     </li>
@@ -59,7 +59,7 @@
                 {% endif %}
             </div>
         </nav>
-    </header>   
+    </header>  
     <div class="page-container flex flex-col min-h-screen">
         <div class="main-content flex-grow">
             {% block content %}
@@ -71,13 +71,27 @@
     </div>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_PLACES_API_KEY }}&libraries=places"></script>
     <script>
-        function openDropdown(menuId) {
-            const dropdown = document.getElementById(menuId);
-            dropdown.classList.add("block");
-            setTimeout(function () {
-                dropdown.classList.remove("block");
-            }, 1000);
-        }
+        const placesDropdownTrigger = document.getElementById('placesDropdownTrigger');
+        const placesDropdownMenu = document.getElementById('placesDropdownMenu');
+        
+        placesDropdownTrigger.addEventListener('click', () => {
+            placesDropdownMenu.classList.toggle('hidden');
+        });
+    
+        const profileDropdownTrigger = document.getElementById('profileDropdownTrigger');
+        const profileDropdownMenu = document.getElementById('profileDropdownMenu');
+        
+        profileDropdownTrigger.addEventListener('click', () => {
+            profileDropdownMenu.classList.toggle('hidden');
+        });
+        document.addEventListener('click', (event) => {
+            if (!placesDropdownTrigger.contains(event.target)) {
+                placesDropdownMenu.classList.add('hidden');
+            }
+            if (!profileDropdownTrigger.contains(event.target)) {
+                profileDropdownMenu.classList.add('hidden');
+            }
+        });
     </script>
 </body>
 
