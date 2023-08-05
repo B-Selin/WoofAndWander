@@ -43,7 +43,7 @@ def signup(request):
 
 def places_index(request):
   selected_category = request.GET.get('selected_category', '')
-  places = Place.objects.all()
+  places = Place.objects.select_related('profile')
 
   if selected_category:
      places = places.filter(category=selected_category)
@@ -141,7 +141,7 @@ def add_place(request):
                         break
 
                 profile = Profile.objects.get(user=request.user)
-                new_place = Place(name=name, address=address, category=place_type, city=city)
+                new_place = Place(name=name, address=address, category=place_type, city=city, profile=profile)
                 # Increment contributions
                 increment_contributions(request.user)
 
