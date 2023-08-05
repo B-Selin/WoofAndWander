@@ -34,7 +34,7 @@
             </div>
             <div class="hidden dp:flex flex-col justify-center">
                 {% if user.is_authenticated %}
-                <ul class="flex items-center h-auto space-x-4 font-body text-body-lg font-bold drop-shadow">
+                <ul id="placesDropdown" class="flex items-center h-auto space-x-4 font-body text-body-lg font-bold drop-shadow">
                     <li><a href="{% url 'home' %}">HOME</a></li>
                     <li class="relative group">
                         <a class="cursor-pointer" onmouseover="openDropdown('placesDropdown')" onmouseout="document.getElementById('placesDropdown').classList.remove('block')">PLACES</a>
@@ -45,7 +45,7 @@
                     </li>                    
                     <li class="relative group">
                         <img src="{% static 'src/images/avatar.svg' %}" alt="Profile" class="w-16 h-16 rounded-full cursor-pointer" onmouseover="openDropdown('placesDropdown')" onmouseout="document.getElementById('placesDropdown').classList.remove('block')"></a>
-                        <ul class="absolute hidden px-4 py-2 group-hover:block shadow-lg rounded text-body bg-secondary text-dark divide-y divide-dark whitespace-nowrap mt-2 right-0">
+                        <ul id="placesDropdown" class="absolute hidden px-4 py-2 group-hover:block shadow-lg rounded text-body bg-secondary text-dark divide-y divide-dark whitespace-nowrap mt-2 right-0">
                             <li><a href="{% url 'profile_details' request.user.profile.id %}" class="hover:opacity-90">VIEW PROFILE</a></li>
                             <li><a href="{% url 'logout' %}">LOG OUT</a></li>
                         </ul>
