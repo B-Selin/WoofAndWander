@@ -14,29 +14,61 @@
     <title>Woof and Wander</title>
 </head>
 
-<body>
-    <header class="fixed w-full bg-primary mb:h-[66px] dp:h-[100px] mb:hidden dp:block mb:bottom-0 dp:top-0">
-        <ul>
-            <nav class="container flex items-center justify-between">
-            {% if user.is_authenticated %}
-            <li><a href="{% url 'index' %}" class="text-light font-body">Places</a></li>
-            <li><a href="{% url 'search_city' %}" class="text-light font-body">Search City</a>
-            <li><a href="{% url 'add_place' %}" class="text-light font-body">Add Place</a>
-            <li><a href="{% url 'logout' %}" class="text-light font-body">Log Out</a></li>
-            <li><a href="{% url 'profile_details' request.user.profile.id %}" class="text-light font-body">Profile</a>
-            </li>
-            {% else %}
-            <li><a href="{% url 'login' %}" class="text-light font-body">Log In</a></li>
-            <li><a href="{% url 'signup' %}" class="text-light font-body">Sign Up</a></li>
-            {% endif %}
-            </nav>
-        </ul>
+<body class="bg-light">
+    <header class="sticky w-full h-24 bg-primary{% block mobile_header_class %}{% endblock %} text-light">
+        <nav class="flex justify-between items-center px-4">
+            <div class="flex items-center">
+                <img src="{% static 'src/images/SmallLogoLight.svg' %}" alt="Logo" class="object-contain mb:max-h-[56px] dp:max-h-[88px]">
+                <span class="hidden dp:block text-h3 font-logo">Woof & Wander</span>
+            </div>
+            <div class="dp:hidden">
+                <ul class="flex space-x-4">
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'index' %}" class="font-body">Places</a></li>
+                    <li><a href="{% url 'profile_details' request.user.profile.id %}" class="font-body">Profile</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login' %}" class="font-body">Log In</a></li>
+                    <li><a href="{% url 'signup' %}" class="font-body">Sign Up</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="hidden dp:flex">
+                {% if user.is_authenticated %}
+                <ul class="flex space-x-4">
+                    <li><a href="{% url 'index' %}" class="font-body">Home</a></li>
+                    <li class="relative group">
+                        <a href="#" class="font-body">Places</a>
+                        <ul class="absolute hidden group-hover:block bg-primary mt-2 py-2 px-4 shadow-lg rounded">
+                            <li><a href="{% url 'index' %}" class="block px-4 py-2">View All</a></li>
+                            <li><a href="{% url 'add_place' %}" class="block px-4 py-2">Add Place</a></li>
+                        </ul>
+                    </li>
+                    <li class="relative group">
+                        <img src="{% static 'src/images/avatar.svg' %}" alt="Profile" class="w-16 h-16 rounded-full cursor-pointer">
+                        <ul class="absolute hidden group-hover:block bg-primary mt-2 py-2 px-4 shadow-lg rounded">
+                            <li><a href="{% url 'profile_details' request.user.profile.id %}" class="block px-4 py-2">View Profile</a></li>
+                            <li><a href="{% url 'logout' %}" class="block px-4 py-2">Log Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                {% else %}
+                <ul class="flex space-x-4">
+                    <li><a href="{% url 'login' %}" class="font-body">Log In</a></li>
+                    <li><a href="{% url 'signup' %}" class="font-body">Sign Up</a></li>
+                </ul>
+                {% endif %}
+            </div>
+        </nav>
     </header>
-    {% block content %}
-    {% endblock %}
-    <footer class="mb:hidden dp:block bg-light font-body-sm">
-        <p>&copy; 2023 Woof & Wander. All rights reserved.</p>
-    </footer>
+    <div class="page-container flex flex-col min-h-screen">
+        <div class="main-content flex-grow">
+          {% block content %}
+          {% endblock %}
+        </div>
+        <footer class="mb:hidden dp:block font-body-sm">
+          <p>&copy; 2023 Woof & Wander. All rights reserved.</p>
+        </footer>
+      </div>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_PLACES_API_KEY }}&libraries=places"></script>
 </body>
 
