@@ -34,7 +34,7 @@ def signup(request):
     if form.is_valid():
       user = form.save()
       login(request, user)
-      return redirect('index')
+      return redirect('search_city')
     else:
       error_message = 'Invalid sign up - try again'
   form = UserCreationForm()
@@ -114,7 +114,7 @@ def search_city(request):
           profile.latitude = float(lat)
           profile.longitude = float(lng)
           profile.save()
-          return redirect('profile_details', profile_id=profile.id)
+          return redirect('index')
 
   return render(request, 'main_app/search_city.html', context)
 

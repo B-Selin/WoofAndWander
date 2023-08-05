@@ -1,31 +1,49 @@
 {% extends 'base.html' %}
-
+{% block mobile_header_class %}
+  mb:hidden dp:block
+{% endblock %}
 {% block content %}
-  <h1>Search City</h1>
-  <form id="city-form" method="POST" action="{% url 'search_city' %}">
-    {% csrf_token %}
-    <input id="city-search" type="text" name="city" placeholder="Search for a city"> 
-    <input type="hidden" name="lat" id="city-lat">
-    <input type="hidden" name="lng" id="city-lng">
-    <button type="submit">Submit</button>
-  </form>
+{% load static %}
+<div class="flex flex-col justify-center min-h-screen dp:flex-row dp:justify-center dp:items-center">
+  <div class="w-full dp:w-auto flex justify-center dp:justify-start">
+    <div class="flex flex-col dp:flex-row dp:items-start items-center">
+      <div class="text-h2 font-bold dp:text-display text-primary font-header mb-4 dp:mb-0 dp:mr-4">Welcome {{user.username}}</div>
+      <div class="flex flex-col mb-4 dp:mb-0">
+        <div class="text-h6 font-bold dp:text-h3 font-header text-dark mb-1 dp:mb-2">Where are you located?</div>
+        <div class="flex mb-2 dp:mb-0 items-center">
+          <div class="dp:hidden mb:flex items-center">
+            <img src="{% static 'src/images/SmallLogoDark.svg' %}" alt="Logo" class="object-contain max-h-[45px]">
+          </div>
+          <form id="city-form" method="POST" action="{% url 'search_city' %}">
+            {% csrf_token %}
+            <input id="city-search" type="text" name="city" placeholder="Search for your city" class="text-body-lg border-none pr-16 dp:pr-20 bg-primary text-light placeholder-light focus:ring-secondary rounded-lg">
+            <input type="hidden" name="lat" id="city-lat">
+            <input type="hidden" name="lng" id="city-lng">
+            <div class="w-full flex justify-center mt-2 dp:mt-0">
+              <button type="submit" class="bg-accent rounded-md px-4 py-2 text-light font-bold drop-shadow-sm hover:bg-opacity-90">CONFIRM CITY</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('city-search');
+    const autocomplete = new google.maps.places.Autocomplete(input, {types: ['(cities)']});
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const input = document.getElementById('city-search');
-      const autocomplete = new google.maps.places.Autocomplete(input, {types: ['(cities)']});
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+      const place = autocomplete.getPlace();
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
 
-      google.maps.event.addListener(autocomplete, 'place_changed', function() {
-        const place = autocomplete.getPlace();
-        const lat = place.geometry.location.lat();
-        const lng = place.geometry.location.lng();
-
-        document.getElementById('city-lat').value = lat;
-        document.getElementById('city-lng').value = lng;
-      });
-
-      document.getElementById('city-form').addEventListener('submit', function(event) {
-      });
+      document.getElementById('city-lat').value = lat;
+      document.getElementById('city-lng').value = lng;
     });
-  </script>
+
+    document.getElementById('city-form').addEventListener('submit', function(event) {
+    });
+  });
+</script>
 {% endblock %}
