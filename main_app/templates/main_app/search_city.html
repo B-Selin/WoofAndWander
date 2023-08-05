@@ -6,12 +6,12 @@
 {% load static %}
 <div class="flex flex-col justify-center min-h-screen dp:flex-row dp:justify-center dp:items-center">
   <div class="w-full dp:w-auto flex justify-center dp:justify-start">
-    <div class="flex flex-col dp:flex-row dp:items-start items-center">
+    <div class="flex flex-col dp:flex-row dp:items-start items-center dp:space-x-16">
       <div class="text-h2 font-bold dp:text-display text-primary font-header mb-4 dp:mb-0 dp:mr-4">Welcome {{user.username}}</div>
       <div class="flex flex-col mb-4 dp:mb-0">
-        <div class="text-h6 font-bold dp:text-h3 font-header text-dark mb-1 dp:mb-2">Where are you located?</div>
-        <div class="flex mb-2 dp:mb-0 items-center">
-          <div class="dp:hidden mb:flex items-center">
+        <div class="text-h6 font-bold dp:text-h3 font-header text-dark mb-4">Where are you located?</div>
+        <div class="flex flex-row">
+          <div class="dp:hidden mb:flex">
             <img src="{% static 'src/images/SmallLogoDark.svg' %}" alt="Logo" class="object-contain max-h-[45px]">
           </div>
           <form id="city-form" method="POST" action="{% url 'search_city' %}">
@@ -19,7 +19,7 @@
             <input id="city-search" type="text" name="city" placeholder="Search for your city" class="text-body-lg border-none pr-16 dp:pr-20 bg-primary text-light placeholder-light focus:ring-secondary rounded-lg">
             <input type="hidden" name="lat" id="city-lat">
             <input type="hidden" name="lng" id="city-lng">
-            <div class="w-full flex justify-center mt-2 dp:mt-0">
+            <div class="w-full flex mt-4">
               <button type="submit" class="bg-accent rounded-md px-4 py-2 text-light font-bold drop-shadow-sm hover:bg-opacity-90">CONFIRM CITY</button>
             </div>
           </form>
