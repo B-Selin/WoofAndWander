@@ -15,62 +15,70 @@
 </head>
 
 <body class="bg-light">
-    <header class="fixed mb:bottom-0 dp:top-0 w-full h-24 bg-primary{% block mobile_header_class %}{% endblock %} text-light">
-        <nav class="flex justify-between items-center px-4">
+    <header class="fixed mb:bottom-0 dp:top-0 rounded-t-lg dp:rounded-b-lg dp:rounded-t-none w-full h-24 bg-primary{% block mobile_header_class %}{% endblock %} text-light">
+        <nav class="flex justify-between items-center h-24 px-4">
             <div class="flex items-center">
-                <img src="{% static 'src/images/SmallLogoLight.svg' %}" alt="Logo" class="object-contain mb:max-h-[56px] dp:max-h-[88px]">
+                <img src="{% static 'src/images/SmallLogoLight.svg' %}" alt="Logo" class="object-contain mb:max-h-[64px] dp:max-h-[80px]">
                 <span class="hidden dp:block text-h3 font-logo">Woof & Wander</span>
             </div>
             <div class="dp:hidden">
-                <ul class="flex space-x-4">
+                <ul class="flex space-x-24 font-body text-body-lg font-bold drop-shadow">
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'index' %}" class="font-body">Places</a></li>
-                    <li><a href="{% url 'profile_details' request.user.profile.id %}" class="font-body">Profile</a></li>
+                    <li><a href="{% url 'index' %}"">PLACES</a></li>
+                    <li><a href="{% url 'profile_details' request.user.profile.id %}">PROFILE</a></li>
                     {% else %}
-                    <li><a href="{% url 'login' %}" class="font-body">Log In</a></li>
-                    <li><a href="{% url 'signup' %}" class="font-body">Sign Up</a></li>
+                    <li><a href="{% url 'login' %}" >LOG IN</a></li>
+                    <li><a href="{% url 'signup' %}" >SIGN UP</a></li>
                     {% endif %}
                 </ul>
             </div>
-            <div class="hidden dp:flex">
+            <div class="hidden dp:flex flex-col justify-center">
                 {% if user.is_authenticated %}
-                <ul class="flex space-x-4">
-                    <li><a href="{% url 'home' %}" class="font-body">Home</a></li>
+                <ul class="flex items-center h-auto space-x-4 font-body text-body-lg font-bold drop-shadow">
+                    <li><a href="{% url 'home' %}">HOME</a></li>
                     <li class="relative group">
-                        <a href="#" class="font-body">Places</a>
-                        <ul class="absolute hidden group-hover:block bg-primary mt-2 py-2 px-4 shadow-lg rounded">
-                            <li><a href="{% url 'index' %}" class="block px-4 py-2">View All</a></li>
-                            <li><a href="{% url 'add_place' %}" class="block px-4 py-2">Add Place</a></li>
+                        <a class="cursor-pointer" onmouseover="openDropdown('placesDropdown')" onmouseout="document.getElementById('placesDropdown').classList.remove('block')">PLACES</a>
+                        <ul class="absolute hidden px-4 py-2 group-hover:block shadow-lg rounded text-body bg-secondary text-dark divide-y divide-dark whitespace-nowrap mt-6">
+                            <li><a href="{% url 'index' %}">VIEW ALL</a></li>
+                            <li><a href="{% url 'add_place' %}">ADD PLACE</a></li>
                         </ul>
-                    </li>
+                    </li>                    
                     <li class="relative group">
-                        <img src="{% static 'src/images/avatar.svg' %}" alt="Profile" class="w-16 h-16 rounded-full cursor-pointer">
-                        <ul class="absolute hidden group-hover:block bg-primary mt-2 py-2 px-4 shadow-lg rounded">
-                            <li><a href="{% url 'profile_details' request.user.profile.id %}" class="block px-4 py-2">View Profile</a></li>
-                            <li><a href="{% url 'logout' %}" class="block px-4 py-2">Log Out</a></li>
+                        <img src="{% static 'src/images/avatar.svg' %}" alt="Profile" class="w-16 h-16 rounded-full cursor-pointer" onmouseover="openDropdown('placesDropdown')" onmouseout="document.getElementById('placesDropdown').classList.remove('block')"></a>
+                        <ul class="absolute hidden px-4 py-2 group-hover:block shadow-lg rounded text-body bg-secondary text-dark divide-y divide-dark whitespace-nowrap mt-2 right-0">
+                            <li><a href="{% url 'profile_details' request.user.profile.id %}" class="hover:opacity-90">VIEW PROFILE</a></li>
+                            <li><a href="{% url 'logout' %}">LOG OUT</a></li>
                         </ul>
                     </li>
                 </ul>
                 {% else %}
-                <ul class="flex space-x-4">
-                    <li><a href="{% url 'login' %}" class="font-body">Log In</a></li>
-                    <li><a href="{% url 'signup' %}" class="font-body">Sign Up</a></li>
+                <ul class="flex space-x-4 font-body text-body-lg font-bold drop-shadow">
+                    <li><a href="{% url 'login' %}" class="font-body text-body-lg font-bold">LOG IN</a></li>
+                    <li><a href="{% url 'signup' %}" class="font-body text-body-lg font-bold">SIGN UP</a></li>
                 </ul>
                 {% endif %}
             </div>
         </nav>
-    </header>
+    </header>   
     <div class="page-container flex flex-col min-h-screen">
         <div class="main-content flex-grow">
-          {% block content %}
-          {% endblock %}
-        </div>
-        <footer class="mb:hidden dp:block font-body-sm">
-          <p>&copy; 2023 Woof & Wander. All rights reserved.</p>
-        </footer>
-      </div>
+            {% block content %}
+            {% endblock %}
+    </div>
+    <footer class="mb:hidden dp:block font-body-sm">
+        <p>&copy; 2023 Woof & Wander. All rights reserved.</p>
+    </footer>
+    </div>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_PLACES_API_KEY }}&libraries=places"></script>
+    <script>
+        function openDropdown(menuId) {
+            const dropdown = document.getElementById(menuId);
+            dropdown.classList.add("block");
+            setTimeout(function () {
+                dropdown.classList.remove("block");
+            }, 1000);
+        }
+    </script>
 </body>
-
 
 </html>
