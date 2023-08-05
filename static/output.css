@@ -1255,6 +1255,10 @@ select {
     width: 18rem;
   }
 
+  .mb\:w-full {
+    width: 100%;
+  }
+
   .mb\:bg-primary {
     --tw-bg-opacity: 1;
     background-color: rgb(215 131 127 / var(--tw-bg-opacity));
@@ -1372,6 +1376,10 @@ select {
 
   .dp\:w-\[400px\] {
     width: 400px;
+  }
+
+  .dp\:w-full {
+    width: 100%;
   }
 
   .dp\:flex-row {

@@ -15,7 +15,7 @@
 </head>
 
 <body class="bg-light">
-    <header class="sticky w-full h-24 bg-primary{% block mobile_header_class %}{% endblock %} text-light">
+    <header class="fixed mb:bottom-0 dp:top-0 w-full h-24 bg-primary{% block mobile_header_class %}{% endblock %} text-light">
         <nav class="flex justify-between items-center px-4">
             <div class="flex items-center">
                 <img src="{% static 'src/images/SmallLogoLight.svg' %}" alt="Logo" class="object-contain mb:max-h-[56px] dp:max-h-[88px]">
@@ -35,7 +35,7 @@
             <div class="hidden dp:flex">
                 {% if user.is_authenticated %}
                 <ul class="flex space-x-4">
-                    <li><a href="{% url 'index' %}" class="font-body">Home</a></li>
+                    <li><a href="{% url 'home' %}" class="font-body">Home</a></li>
                     <li class="relative group">
                         <a href="#" class="font-body">Places</a>
                         <ul class="absolute hidden group-hover:block bg-primary mt-2 py-2 px-4 shadow-lg rounded">
