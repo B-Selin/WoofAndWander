@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Place Details</h1>
-<h3>{{ place.name }}
-    {% if avg_rating %}
-    ({{ avg_rating|floatformat }}/5)
-    {% endif %}
-</h3>
+<div class="m-4 text-dark font-body">
+    <h3 class="font-header font-bold text-h4">{{ place.name }}</h3>
+    <p class="text-body-lg">{{place.category}}</p>
+    <p class="hidden dp:block text-body-lg">{{place.address}}</p>
+    <p class="">
+        {% if avg_rating %}
+        {{ avg_rating|floatformat }}/5 stars
+        {% endif %}
+    </p>
 
-<p><a href="https://www.google.com/maps/search/?api=1&query={{ place.address }}" target="_blank">
-        Directions </a>{{place.address|truncatechars:30}}</p>
 
 <p>{{place.category}}</p>
 <br><br>
@@ -39,39 +40,71 @@
     <p>{{review.comment}}</p>
     <p>{{review.rating}}</p>
     {% if request.user == review.profile.user %}
+  
     <form action="{% url 'review_delete' pk=review.pk %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">Delete Review</button>
+        </form>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    {% if is_favourite %}
+
+    <form action="{% url 'remove_favourite' place.id %}" method="POST">
         {% csrf_token %}
-        <button type="submit">Delete Review</button>
+        <button type="submit">Remove from Favourites</button>
     </form>
+
+
+    {% else %}
+
+    <form action="{% url 'add_favourite' place.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">Add to Favourites</button>
+    </form>
+
     {% endif %}
+
+    <h3 class="text-h6 font-header font-bold">Reviews</h3>
+    <div class="grid grid-cols-2 gap-4" style="max-height: 450px; overflow-y: auto;">
+        {% for review in place.review_set.all %}
+            <a href="{% url 'profile_details' review.profile.user.id %}">
+                <div class="w-full bg-primary text-dark rounded-lg shadow-md p-4 cursor-pointer">
+                    <div class="flex items-center mb-4">
+                        <img src="https://via.placeholder.com/50" alt="Avatar" class="w-10 h-10 rounded-full mr-2">
+                        <p class="text-body-lg dp:text-h6">{{review.profile.user.username}}</p>
+                    </div>
+                    <p class="text-body dp:text-body-lg">{{review.comment}}</p>
+                    <p class="text-body-sm">{{review.rating}} stars</p>
+                    <!-- loop through amenities -->
+                    <h3>Amenities</h3>
+                    <ul>
+                        {% for category, amenities in amenities %}
+                        {% for key, label in amenities %}
+                    
+                        <li>{{ label }}
+                        </li>
+                    
+                        {% endfor %}
+                        {% endfor %}
+                    </ul>
+                    <ul>{% for a in available_amenities %}
+                        <li>{{ a }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% if request.user == review.profile.user %}
+                        <form action="{% url 'review_delete' pk=review.pk %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit">Delete Review</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    <a href="{% url 'review_create' place_pk=place.pk %}">
+        <button class=" rounded">Add Review</button>
+    </a>
 </div>
-{% endfor %}
-
-{% if is_favourite %}
-
-<form action="{% url 'remove_favourite' place.id %}" method="POST">
-    {% csrf_token %}
-    <button type="submit">Remove from Favourites</button>
-</form>
-
-
-{% else %}
-
-<form action="{% url 'add_favourite' place.id %}" method="POST">
-    {% csrf_token %}
-    <button type="submit">Add to Favourites</button>
-</form>
-
-{% endif %}
-
-<form action="{% url 'review_create' place_pk=place.pk %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <label for="reviews">Reviews:</label>
-    <textarea name="comment" cols="30" rows="5"></textarea><br><br>
-    <label for="rating">Rating:</label>
-    <input type="number" name="rating" min="1" max="5"><br><br>
-    <button type="submit">Add Review</button>
-</form>
-
 {% endblock %}

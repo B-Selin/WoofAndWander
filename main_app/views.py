@@ -22,8 +22,8 @@ from .amenities import AMENITY_CHOICES
 
 
 # Create your views here.
-# def home(request):
-#     return render(request, 'home.html')
+def home(request):
+    return render(request, 'home.html')
 
 def landing(request):
   return render(request, 'landing.html')
@@ -35,7 +35,7 @@ def signup(request):
     if form.is_valid():
       user = form.save()
       login(request, user)
-      return redirect('index')
+      return redirect('search_city')
     else:
       error_message = 'Invalid sign up - try again'
   form = UserCreationForm()
@@ -45,6 +45,7 @@ def signup(request):
 def places_index(request):
   selected_category = request.GET.get('selected_category', '')
   places = Place.objects.select_related('profile')
+  places = Place.objects.annotate(avg_rating=Avg('review__rating'))
 
   if selected_category:
      places = places.filter(category=selected_category)
@@ -115,7 +116,7 @@ def search_city(request):
           profile.latitude = float(lat)
           profile.longitude = float(lng)
           profile.save()
-          return redirect('profile_details', profile_id=profile.id)
+          return redirect('index')
 
   return render(request, 'main_app/search_city.html', context)
 
@@ -203,8 +204,15 @@ class ReviewCreate(LoginRequiredMixin, CreateView):
     return super().form_valid(form)
 
    def get_success_url(self):
-      return reverse('place_details', kwargs={'place_id': self.object.place.id})
+    return reverse('place_details', kwargs={'place_id': self.object.place.id})
    
+   def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    place_pk = self.kwargs['place_pk']
+    place = Place.objects.get(pk=place_pk)
+    context['place_pk'] = place_pk
+    context['place'] = place
+    return context
 
 class ReviewDelete(LoginRequiredMixin, DeleteView):
    model = Review

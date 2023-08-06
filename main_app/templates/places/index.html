@@ -1,58 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Places near you</h1>
-<!-- added category filter -->
-<form id="categoryFilterForm" method="GET">
-
-    <label for="categorySelect">Are you looking for something? -></label>
-
-    <select name="selected_category" id="categorySelect">
-        <option value="">All Categories</option>
-        {% for category in categories %}
-        <option value="{{ category }}">{{ category }}</option>
-        {% endfor %}
-    </select>
-
-    <button type="submit">Find Locations</button>
-
-</form>
-<!-- end -->
-
-
-<table>
-    <thead>
-        <tr>
-            <th>Added By</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Category</th>
-            <th>Google Maps</th>
-
-        </tr>
-    </thead>
-    <tbody>
+    <h1 class="font-bold font-header text-h4 dp:text-h1 ml-8 m-4">Places near you</h1>
+    <!-- added category filter -->
+    <form id="categoryFilterForm" method="GET">
+        <select name="selected_category" id="categorySelect" class="border rounded px-4 ml-8 py-1 bg-secondary border-none pr-8 focus:ring-secondary">
+            <option value="" class="">All Categories</option>
+            {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="">Filter</button>
+    </form>
+    <!-- end -->
+    <div class="grid grid-cols-1 m-8 gap-4">
         {% for place in places %}
-        <tr>
-            <td><a href="{% url 'profile_details' place.profile.user.id %}">{{ place.profile.user.username }}</a></td>
-            <td>{{ place.name }}</td>
-            <td>{{ place.address|truncatechars:30 }}</td>
-            <td>{{ place.category }}</td>
-            <!-- include a google maps link to the address of the place -->
-            <td><a href="https://www.google.com/maps/search/?api=1&query={{ place.address }}" target="_blank">
-                    Directions </a>
-            </td>
-            <td>
-                <form action="{% url 'place_details' place.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Details</button>
-                </form>
-            </td>
-        </tr>
-        </a>
+            <a href="{% url 'place_details' place.id %}">
+                <div class="w-full bg-primary text-light rounded-lg shadow-md p-4 cursor-pointer">
+                    <h3 class="text-h5 dp:text-h4 font-header font-bold">{{ place.name }}</h3>
+                    <p class="text-body font-body dp:text-body-lg dp:font-bold">{{ place.category}}</p>
+                    <p class="hidden font-body dp:block">{{ place.address }}</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query={{ place.address }}" target="_blank">Directions</a>
+                    <p class="font-body">Average Rating: {{ place.avg_rating|floatformat:1 }}</p>
+                    <a href="{% url 'profile_details' place.profile.user.id %}">Added by: {{ place.profile.user.username }}</a>
+                </div>
+            </a>
         {% endfor %}
-    </tbody>
-</table>
+    </div>
 {% endblock %}
 
 {% block javascript %}

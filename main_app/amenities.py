@@ -1,4 +1,3 @@
-
 AMENITY_CHOICES = [
     ("airport", (
         ("potty_location", "Potty Location"),

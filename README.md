@@ -13,7 +13,7 @@ Search for pet-friendly establishments b# WoofAndWander
 
 - Visit the [Trello board](https://trello.com/b/fweFLvEm/woof-wander) to view tasks and progress.
 
-- This is how we pitched [Pitch Deck](https://trello.com/b/fweFLvEm/woof-wander) the idea.
+- This was our idea [Pitch Deck](https://www.canva.com/design/DAFp4qZSUjQ/f8v0nU1umbpiq07k-k1-Gg/edit?utm_source=shareButton&utm_medium=email&utm_campaign=designshare).
 
 ## Features
 Search for pet-friendly establishments by location
@@ -33,23 +33,12 @@ Save places as your favourires for future visits
 
 ### IceBox features
 
-- As a users create activities and events
-- Provide input on availability of dog bowls, bag dispensers, etc.
-y location
-Filter results by categories like restaurants, trails, dog parks etc.
-View details like reviews, amenities for each location
-
-IceBox features
-Save locations to custom lists like "Favorite Hikes", "Dog-friendly Patios" etc.
-User profiles to share info about yourself and your pets
-Photo galleries of pets
-Tips and recommendations for enjoying activities with dogs
-
-
-### Technologies
-- Django
-- PostgreSQL
-- Google Maps API
-- Google Places API
-- Bootstrap
-- Python
+[ ] Users can create activities and events
+[ ] Provide input on availability of dog bowls, bag dispensers, etc.
+[ ] Filter places by location
+[X] Filter results by categories like restaurants, trails, dog parks etc.
+[X] View details like reviews, amenities for each location
+[ ] Save locations to custom lists like "Favorite Hikes", "Dog-friendly Patios" etc.
+[X]User profiles to share info about yourself and your pets
+[ ] Photo galleries of pets
+[ ] Tips and recommendations for enjoying activities with dogs
