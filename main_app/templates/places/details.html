@@ -12,7 +12,26 @@
         Directions </a>{{place.address|truncatechars:30}}</p>
 
 <p>{{place.category}}</p>
+<br><br>
+<!-- loop through amenities -->
 
+<h3>Amenities</h3>
+<ul>
+    {% for category, amenities in amenities %}
+    {% for key, label in amenities %}
+
+    <li>{{ label }}
+    </li>
+
+    {% endfor %}
+    {% endfor %}
+</ul>
+<ul>{% for a in available_amenities %}
+    <li>{{ a }}</li>
+    {% endfor %}
+</ul>
+<br>
+<br>
 <h3>Reviews</h3>
 {% for review in place.review_set.all %}
 <div>

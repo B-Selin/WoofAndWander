@@ -18,6 +18,7 @@ import os
 import requests
 from django.contrib import messages
 from django.db.models import Avg
+from .amenities import AMENITY_CHOICES
 
 
 # Create your views here.
@@ -165,13 +166,16 @@ def place_details(request, place_id):
   review = Review.objects.filter(place=place)
   is_favourite = Favourite.objects.filter(user=request.user, place=place).exists()
   avg_rating = place.review_set.aggregate(Avg('rating'))['rating__avg']
-
+  category = place.category
+  #filter the amenities based on the category
+  amenities = [amenity for amenity in AMENITY_CHOICES if amenity[0] == category]
 
   context = {
      'place': place,
      'review': review,
      'is_favourite': is_favourite,
      'avg_rating': avg_rating,
+     'amenities': amenities,
   }
   return render(request, 'places/details.html', context)
 
