@@ -176,8 +176,7 @@ def place_details(request, place_id):
      'review': review,
      'is_favourite': is_favourite,
      'avg_rating': avg_rating,
-      'amenities': amenities,
-
+     'amenities': amenities,
   }
   return render(request, 'places/details.html', context)
 
