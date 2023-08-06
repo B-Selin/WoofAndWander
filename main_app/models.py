@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
+import datetime
 
 
 # Create your models here.
@@ -54,6 +55,7 @@ class Photo(models.Model):
 
     
 class Review(models.Model):
+    date = models.DateField('review date', default=datetime.date.today)
     comment = models.TextField(max_length=150)
     rating = models.IntegerField(default=5)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
