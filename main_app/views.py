@@ -44,7 +44,7 @@ def signup(request):
 def places_index(request):
   selected_category = request.GET.get('selected_category', '')
   places = Place.objects.annotate(avg_rating=Avg('review__rating'))
-  
+
   if selected_category:
      places = places.filter(category=selected_category)
 
@@ -199,8 +199,15 @@ class ReviewCreate(LoginRequiredMixin, CreateView):
     return super().form_valid(form)
 
    def get_success_url(self):
-      return reverse('place_details', kwargs={'place_id': self.object.place.id})
+    return reverse('place_details', kwargs={'place_id': self.object.place.id})
    
+   def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    place_pk = self.kwargs['place_pk']
+    place = Place.objects.get(pk=place_pk)
+    context['place_pk'] = place_pk
+    context['place'] = place
+    return context
 
 class ReviewDelete(LoginRequiredMixin, DeleteView):
    model = Review
