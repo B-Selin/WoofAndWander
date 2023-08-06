@@ -27,6 +27,8 @@
             <th>Name</th>
             <th>Address</th>
             <th>Category</th>
+            <th>Google Maps</th>
+
         </tr>
     </thead>
     <tbody>
@@ -34,8 +36,12 @@
         <tr>
             <td><a href="{% url 'profile_details' place.profile.user.id %}">{{ place.profile.user.username }}</a></td>
             <td>{{ place.name }}</td>
-            <td>{{ place.address }}</td>
+            <td>{{ place.address|truncatechars:30 }}</td>
             <td>{{ place.category }}</td>
+            <!-- include a google maps link to the address of the place -->
+            <td><a href="https://www.google.com/maps/search/?api=1&query={{ place.address }}" target="_blank">
+                    Directions </a>
+            </td>
             <td>
                 <form action="{% url 'place_details' place.id %}" method="post">
                     {% csrf_token %}

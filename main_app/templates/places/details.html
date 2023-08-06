@@ -8,7 +8,9 @@
     {% endif %}
 </h3>
 
-<p>{{place.address}}</p>
+<p><a href="https://www.google.com/maps/search/?api=1&query={{ place.address }}" target="_blank">
+        Directions </a>{{place.address|truncatechars:30}}</p>
+
 <p>{{place.category}}</p>
 
 <h3>Reviews</h3>
