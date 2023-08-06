@@ -16,6 +16,7 @@
     <table>
         <thead>
             <tr>
+                <th>Added By</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>Category</th>
@@ -24,6 +25,7 @@
         <tbody>
             {% for place in places %}
                     <tr>
+                        <td>{{ place.profile.user.username }}</td>
                         <td>{{ place.name }}</td>
                         <td>{{ place.address }}</td>
                         <td>{{ place.category }}</td>
