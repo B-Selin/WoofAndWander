@@ -5,7 +5,7 @@
     <!-- added category filter -->
     <form id="categoryFilterForm" method="GET">
         <select name="selected_category" id="categorySelect" class="border rounded px-4 ml-8 py-1 bg-secondary border-none pr-8 focus:ring-secondary">
-            <option value="" class="">Select a Category</option>
+            <option value="" class="">All Categories</option>
             {% for category in categories %}
                 <option value="{{ category }}">{{ category }}</option>
             {% endfor %}
@@ -20,7 +20,9 @@
                     <h3 class="text-h5 dp:text-h4 font-header font-bold">{{ place.name }}</h3>
                     <p class="text-body font-body dp:text-body-lg dp:font-bold">{{ place.category}}</p>
                     <p class="hidden font-body dp:block">{{ place.address }}</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query={{ place.address }}" target="_blank">Directions</a>
                     <p class="font-body">Average Rating: {{ place.avg_rating|floatformat:1 }}</p>
+                    <a href="{% url 'profile_details' place.profile.user.id %}">Added by: {{ place.profile.user.username }}</a>
                 </div>
             </a>
         {% endfor %}
@@ -28,10 +30,11 @@
 {% endblock %}
 
 {% block javascript %}
-    <script>
-        const categorySelect = document.getElementById('categorySelect');
-        categorySelect.addEventListener('change', () => {
-            document.getElementById('categoryFilterForm').submit();
-        });
-    </script>
+<script>
+    const categorySelect = document.getElementById('categorySelect');
+    categorySelect.addEventListener('change', () => {
+        document.getElementById('categoryFilterForm').submit();
+    });
+
+</script>
 {% endblock %}

@@ -12,6 +12,7 @@ class Place(models.Model):
     address = models.CharField(max_length=200)
     category = models.CharField(max_length=50, default='')
     city = models.CharField(max_length=255)
+    profile = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f'{self.name} ({self.id})'
@@ -27,7 +28,7 @@ class Profile(models.Model):
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
     contributions  = models.IntegerField(default=0)
-    favourites = models.ManyToManyField(Place)
+    favourites = models.ManyToManyField(Place, related_name='favourited_by', blank=True)
 
     def __str__(self): 
         return f'{self.user} ({self.id})'
