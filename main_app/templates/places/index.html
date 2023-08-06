@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Places near you</h1>
+    <h1 class="font-bold font-header text-h4 dp:text-h1">Places near you</h1>
     <!-- added category filter -->
     <form id="categoryFilterForm" method="GET">
         <select name="selected_category" id="categorySelect">
@@ -13,31 +13,19 @@
         <button type="submit">Filter</button>
     </form>
     <!-- end -->
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Category</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for place in places %}
-                    <tr>
-                        <td>{{ place.name }}</td>
-                        <td>{{ place.address }}</td>
-                        <td>{{ place.category }}</td>
-                        <td>
-                            <form action="{% url 'place_details' place.id %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit">Details</button>
-                            </form>
-                        </td>
-                    </tr>
+    <div class="grid grid-cols-1 m-4 gap-4">
+        {% for place in places %}
+            <a href="{% url 'place_details' place.id %}">
+                <div class="w-full bg-primary text-light rounded-lg shadow-md p-4 cursor-pointer">
+                    <h3 class="text-h5 dp:text-h4 font-header font-bold">{{ place.name }}</h3>
+                    <p class="text-body font-body dp:text-body-lg dp:font-bold">{{ place.category}}</p>
+                    <p class="hidden font-body dp:block">{{ place.address }}</p>
+                    <p class="font-body">Average Rating: {{ place.avg_rating|floatformat:1 }}</p>
+                </div>
             </a>
-            {% endfor %}
-        </tbody>
-    </table>
+        {% endfor %}
+    </div>
+    
 {% endblock %}
 
 {% block javascript %}

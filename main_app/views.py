@@ -43,8 +43,8 @@ def signup(request):
 
 def places_index(request):
   selected_category = request.GET.get('selected_category', '')
-  places = Place.objects.all()
-
+  places = Place.objects.annotate(avg_rating=Avg('review__rating'))
+  
   if selected_category:
      places = places.filter(category=selected_category)
 
