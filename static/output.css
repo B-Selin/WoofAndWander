@@ -1409,6 +1409,16 @@ select {
   padding-right: 1.5rem;
 }
 
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 .pb-4 {
   padding-bottom: 1rem;
 }
@@ -1518,6 +1528,11 @@ select {
 .text-primary {
   --tw-text-opacity: 1;
   color: rgb(215 131 127 / var(--tw-text-opacity));
+}
+
+.text-accent {
+  --tw-text-opacity: 1;
+  color: rgb(87 168 172 / var(--tw-text-opacity));
 }
 
 .placeholder-light::-moz-placeholder {
