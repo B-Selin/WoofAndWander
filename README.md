@@ -33,12 +33,12 @@ Save places as your favourires for future visits
 
 ### IceBox features
 
-[ ] Users can create activities and events
-[ ] Provide input on availability of dog bowls, bag dispensers, etc.
-[ ] Filter places by location
-[X] Filter results by categories like restaurants, trails, dog parks etc.
-[X] View details like reviews, amenities for each location
-[ ] Save locations to custom lists like "Favorite Hikes", "Dog-friendly Patios" etc.
-[X]User profiles to share info about yourself and your pets
-[ ] Photo galleries of pets
-[ ] Tips and recommendations for enjoying activities with dogs
+- [ ] Users can create activities and events
+- [ ] Provide input on availability of dog bowls, bag dispensers, etc.
+- [ ] Filter places by location
+- [X] Filter results by categories like restaurants, trails, dog parks etc.
+- [X] View details like reviews, amenities for each location
+- [ ] Save locations to custom lists like "Favorite Hikes", "Dog-friendly Patios" etc.
+- [X]User profiles to share info about yourself and your pets
+- [ ] Photo galleries of pets
+- [ ] Tips and recommendations for enjoying activities with dogs
