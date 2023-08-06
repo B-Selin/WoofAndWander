@@ -1,52 +1,55 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Places near you</h1>
-    <!-- added category filter -->
-    <form id="categoryFilterForm" method="GET">
-        <select name="selected_category" id="categorySelect">
-            <option value="">Select a Category</option>
-            {% for category in categories %}
-                <option value="{{ category }}">{{ category }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Filter</button>
-    </form>
-    <!-- end -->
-    <table>
-        <thead>
-            <tr>
-                <th>Added By</th>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Category</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for place in places %}
-                    <tr>
-                        <td>{{ place.profile.user.username }}</td>
-                        <td>{{ place.name }}</td>
-                        <td>{{ place.address }}</td>
-                        <td>{{ place.category }}</td>
-                        <td>
-                            <form action="{% url 'place_details' place.id %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit">Details</button>
-                            </form>
-                        </td>
-                    </tr>
-            </a>
-            {% endfor %}
-        </tbody>
-    </table>
+<h1>Places near you</h1>
+<!-- added category filter -->
+<form id="categoryFilterForm" method="GET">
+    <select name="selected_category" id="categorySelect">
+        <option value="">Select a Category</option>
+        {% for category in categories %}
+        <option value="{{ category }}">{{ category }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Filter</button>
+</form>
+<!-- end -->
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Added By</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Category</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for place in places %}
+        <tr>
+            <td><a href="{% url 'profile_details' place.profile.user.id %}">{{ place.profile.user.username }}</a></td>
+            <td>{{ place.name }}</td>
+            <td>{{ place.address }}</td>
+            <td>{{ place.category }}</td>
+            <td>
+                <form action="{% url 'place_details' place.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Details</button>
+                </form>
+            </td>
+        </tr>
+        </a>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
 
 {% block javascript %}
-    <script>
-        const categorySelect = document.getElementById('categorySelect');
-        categorySelect.addEventListener('change', () => {
-            document.getElementById('categoryFilterForm').submit();
-        });
-    </script>
+<script>
+    const categorySelect = document.getElementById('categorySelect');
+    categorySelect.addEventListener('change', () => {
+        document.getElementById('categoryFilterForm').submit();
+    });
+
+</script>
 {% endblock %}

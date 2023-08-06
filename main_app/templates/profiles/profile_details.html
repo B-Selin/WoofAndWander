@@ -2,10 +2,10 @@
 {% block content %}
 
 <h1>User Profile</h1>
-<p>{{user.username}}</p>
-<p>{{user.profile.city}}</p>
+<p>{{profile.user.username}}</p>
+<p>{{profile.user.profile.city}}</p>
 <!-- user.name has made {number} of contributions -->
-<p>{{user.username}} has so far made {{ contributions }} contributions</p>
+<p>{{profile.user.username}} has so far made {{ contributions }} contributions</p>
 <table>
     <thead>
         <tr>
