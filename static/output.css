@@ -804,6 +804,10 @@ select {
   margin: 1rem;
 }
 
+.m-8 {
+  margin: 2rem;
+}
+
 .mb-4 {
   margin-bottom: 1rem;
 }
@@ -882,6 +886,10 @@ select {
 
 .ml-3 {
   margin-left: 0.75rem;
+}
+
+.ml-8 {
+  margin-left: 2rem;
 }
 
 .block {

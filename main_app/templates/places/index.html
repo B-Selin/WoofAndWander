@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 class="font-bold font-header text-h4 dp:text-h1 ml-4">Places near you</h1>
+    <h1 class="font-bold font-header text-h4 dp:text-h1 ml-8 m-4">Places near you</h1>
     <!-- added category filter -->
     <form id="categoryFilterForm" method="GET">
-        <select name="selected_category" id="categorySelect" class="border rounded px-4 ml-4 py-1 bg-secondary border-none pr-8>
+        <select name="selected_category" id="categorySelect" class="border rounded px-4 ml-8 py-1 bg-secondary border-none pr-8>
             <option value="" class="">Select a Category</option>
             {% for category in categories %}
                 <option value="{{ category }}">{{ category }}</option>
@@ -13,7 +13,7 @@
         <button type="submit" class="">Filter</button>
     </form>
     <!-- end -->
-    <div class="grid grid-cols-1 m-4 gap-4">
+    <div class="grid grid-cols-1 m-8 gap-4">
         {% for place in places %}
             <a href="{% url 'place_details' place.id %}">
                 <div class="w-full bg-primary text-light rounded-lg shadow-md p-4 cursor-pointer">
