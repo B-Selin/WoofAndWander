@@ -1,30 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="m-4 text-dark ">
-    <h3 class="font-header font-bold text-h4 dp:text-h2">{{ place.name }}</h3>
-    <p class="font-body text-body-lg">{{place.category}}</p>
-    <p class="font-body hidden dp:block text-body-lg">{{place.address}}</p>
-    <p class="font-body">
+<div class="m-4 text-dark font-body">
+    <h3 class="font-header font-bold text-h4">{{ place.name }}</h3>
+    <p class="text-body-lg">{{place.category}}</p>
+    <p class="hidden dp:block text-body-lg">{{place.address}}</p>
+    <p class="">
         {% if avg_rating %}
         {{ avg_rating|floatformat }}/5 stars
         {% endif %}
     </p>
-
-    <h3>Reviews</h3>
-    {% for review in place.review_set.all %}
-    <div>
-        <p>{{review.profile.user.username}}</p>
-        <p>{{review.comment}}</p>
-        <p>{{review.rating}}</p>
-        {% if request.user == review.profile.user %}
-        <form action="{% url 'review_delete' pk=review.pk %}" method="POST">
-            {% csrf_token %}
-            <button type="submit">Delete Review</button>
-        </form>
-        {% endif %}
-    </div>
-    {% endfor %}
 
     {% if is_favourite %}
 
@@ -43,7 +28,28 @@
 
     {% endif %}
 
-    <form action="{% url 'review_create' place_pk=place.pk %}" method="POST">
+    <h3 class="text-h6 font-header font-bold">Reviews</h3>
+    <div class="grid grid-cols-2 gap-4" style="max-height: 450px; overflow-y: auto;">
+        {% for review in place.review_set.all %}
+            <a href="{% url 'profile_details' review.profile.user.id %}">
+                <div class="w-full bg-primary text-light rounded-lg shadow-md p-4 cursor-pointer">
+                    <div class="flex items-center">
+                        <img src="https://via.placeholder.com/50" alt="Avatar" class="w-10 h-10 rounded-full mr-4">
+                        <p>{{review.profile.user.username}}</p>
+                    </div>
+                    <p>{{review.comment}}</p>
+                    {% if request.user == review.profile.user %}
+                        <form action="{% url 'review_delete' pk=review.pk %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit">Delete Review</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+
+    <!-- <form action="{% url 'review_create' place_pk=place.pk %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <label for="reviews">Reviews:</label>
@@ -51,6 +57,6 @@
         <label for="rating">Rating:</label>
         <input type="number" name="rating" min="1" max="5"><br><br>
         <button type="submit">Add Review</button>
-    </form>
+    </form> -->
 </div>
 {% endblock %}
