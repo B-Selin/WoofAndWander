@@ -43,8 +43,6 @@
     {% endfor %}
 </ul>
 
-
-
     {% endif %}
 
     <h3 class="text-h6 font-header font-bold">Reviews</h3>
@@ -58,22 +56,6 @@
                     </div>
                     <p class="text-body dp:text-body-lg">{{review.comment}}</p>
                     <p class="text-body-sm">{{review.rating}} stars</p>
-                    <!-- loop through amenities -->
-                    <h3>Amenities</h3>
-                    <ul>
-                        {% for category, amenities in amenities %}
-                        {% for key, label in amenities %}
-                    
-                        <li>{{ label }}
-                        </li>
-                    
-                        {% endfor %}
-                        {% endfor %}
-                    </ul>
-                    <ul>{% for a in available_amenities %}
-                        <li>{{ a }}</li>
-                        {% endfor %}
-                    </ul>
                     {% if request.user == review.profile.user %}
                         <form action="{% url 'review_delete' pk=review.pk %}" method="POST">
                             {% csrf_token %}
