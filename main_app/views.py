@@ -11,14 +11,73 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden
-from .models import Place, Pet, Profile, Review, Photo, Favourite
-from .forms import PetForm
+from .models import Place, Pet, Profile, Review, Photo, Favourite, Amenity, Vote
+from .forms import PetForm, VoteForm
 from django.urls import reverse
 import os
 import requests
 from django.contrib import messages
 from django.db.models import Avg
+from statistics import mean
+from collections import deque
+last_5_responses = deque(maxlen=5)
 
+AMENITY_CHOICES = [
+    ("airport", (
+        ("potty_location", "Potty Location"),
+        ("water", "Water"),
+    )),
+    ("amusement_park", (
+        ("potty_location", "Potty Location"),
+        ("water", "Water"),
+        ("dog_friendly_rides", "Dog-Friendly Rides"),
+    )),
+    ("aquarium", (
+        ("potty_location", "Potty Location"),
+        ("water", "Water"),
+    )),
+    ("art_gallery", (
+        ("potty_location", "Potty Location"), 
+        ("water", "Water"),
+        ("pet_friendly_exhibits", "Pet-Friendly Exhibits"),
+    )),
+    ("bakery", (
+        ("dog_treats", "Dog Treats"),
+        ("outdoor_seating", "Outdoor Seating"),
+    )),
+    ("cafe", (
+        ("dog_treats", "Dog Treats"),
+        ("outdoor_seating", "Outdoor Seating"),
+        ("peaceful_walking_area", "Peaceful Walking Area"),
+    )),
+    ("park", (
+        ("off_leash_area", "Off-Leash Area"),
+        ("peaceful_walking_area", "Peaceful Walking Area"),
+        ("waste_bags", "Waste Bags"),
+        ("water", "Water"),
+    )),
+    ("beach", (
+        ("off_leash_area", "Off-Leash Area"),
+        ("water", "Water"),
+        ("waste_bags", "Waste Bags"),
+    )),
+    ("campground", (
+        ("off_leash_area", "Off-Leash Area"),
+        ("peaceful_walking_area", "Peaceful Walking Area"),
+        ("waste_bags", "Waste Bags"),
+    )),
+    ("pet_store", (
+        ("dog_treats", "Dog Treats"),
+        ("pet_supplies", "Pet Supplies"),
+    )),
+    ("vet_clinic", (
+        ("dog_friendly_waiting_area", "Dog-Friendly Waiting Area"),
+        ("pet_healthcare", "Pet Healthcare"),
+    )),
+    ("grooming_salon", (
+        ("dog_grooming_services", "Dog Grooming Services"),
+    )),
+]
 
 # Create your views here.
 # def home(request):
@@ -66,6 +125,7 @@ def profile_details(request, profile_id):
   pet_form = PetForm()
   favourites = Favourite.objects.filter(user=request.user)
   contributions = profile.contributions
+
   
   context = {
     'profile': profile,
@@ -165,13 +225,17 @@ def place_details(request, place_id):
   review = Review.objects.filter(place=place)
   is_favourite = Favourite.objects.filter(user=request.user, place=place).exists()
   avg_rating = place.review_set.aggregate(Avg('rating'))['rating__avg']
-
+  category = place.category
+  #filter the amenities based on the category
+  amenities = [amenity for amenity in AMENITY_CHOICES if amenity[0] == category]
+  save_amenity_votes(request, place)
 
   context = {
      'place': place,
      'review': review,
      'is_favourite': is_favourite,
      'avg_rating': avg_rating,
+     'amenities': amenities,
   }
   return render(request, 'places/details.html', context)
 
@@ -260,3 +324,60 @@ def increment_contributions(user):
   profile = Profile.objects.get(user=user)
   profile.contributions += 1
   profile.save()
+
+
+def get_place_amenities(place):
+  category = place.category
+  return [amenity for amenity in AMENITY_CHOICES if amenity[0] == category]
+
+
+# keep track of each yes and no votes given via html form/VoteForm to the amenities that are grouped under the place.category
+
+def save_amenity_votes(request, place):
+    yes_votes = request.POST.getlist('yes')
+    no_votes = request.POST.getlist('no')
+
+    for amenity in yes_votes:
+        Vote.objects.create(place=place, amenity_id=amenity, vote=True)
+
+    for amenity in no_votes:
+        Vote.objects.create(place=place, amenity_id=amenity, vote=False)
+
+
+
+def get_amenity_by_id(amenity_id, amenities):
+    return amenities.filter(id=amenity_id).first()
+
+# get the last three votes for every amenity grouped in the place.category
+def get_recent_votes(place):
+    category = place.category
+    amenities = AMENITY_CHOICES.filter(category)
+    votes = {}
+
+    for amenity in amenities:
+        amenity_id = amenity[0]
+        recent_votes = Vote.objects.filter(amenity_id=amenity_id).order_by('-id')[:3]
+        votes[amenity_id] = recent_votes
+
+    return votes
+
+# according to the yes votes for each amenity, calculate the average of the last three votes for every amenity in the place.Category.
+# if it is a yes/>=0.5/true them save the amenity in the available_amenities list
+
+def get_available_amenities(place):
+   available_amenities = []
+   recent_votes = get_recent_votes(place)
+
+   for amenity_id, votes in recent_votes.items():
+       yes_votes = 0
+       for vote in votes:
+           if vote.vote:
+               yes_votes += 1
+
+       # if yes votes are >= 50% of total votes, add amenity, avoid division error, if there are no votes do not put the amenity in the list
+       if yes_votes / len(votes) >= 0.5 or len(votes) == 0:
+          available_amenities.append(get_amenity_by_id(amenity_id, AMENITY_CHOICES))
+        
+
+   return available_amenities
+

@@ -10,7 +10,26 @@
 
 <p>{{place.address}}</p>
 <p>{{place.category}}</p>
+<br><br>
+<!-- loop through amenities -->
 
+<h3>Amenities</h3>
+<ul>
+    {% for category, amenities in amenities %}
+    {% for key, label in amenities %}
+
+    <li>{{ label }}
+    </li>
+
+    {% endfor %}
+    {% endfor %}
+</ul>
+<ul>{% for a in available_amenities %}
+    <li>{{ a }}</li>
+    {% endfor %}
+</ul>
+<br>
+<br>
 <h3>Reviews</h3>
 {% for review in place.review_set.all %}
 <div>
@@ -52,5 +71,63 @@
     <input type="number" name="rating" min="1" max="5"><br><br>
     <button type="submit">Add Review</button>
 </form>
+
+<br>
+
+<h3>Is this still available?</h3>
+
+<form method="post" action="{% url 'place_details' place.id %}">
+
+    {% csrf_token %}
+
+    {% for category, amenities in amenities %}
+
+    {% for key, label in amenities %}
+
+    <div>
+
+
+        <label>{{ label }}</label>
+        <div>
+            <input type="radio" name="{{ key }}_available" value="yes">
+            <label>Yes</label>
+        </div>
+
+        <div>
+            <input type="radio" name="{{ key }}_available" value="no">
+            <label>No</label>
+        </div>
+    </div>
+
+    {% endfor %}
+
+    {% endfor %}
+
+    <input type="submit" value="Submit">
+
+</form>
+
+
+
+<p>selected: {{ selected }}</p>
+
+<p>amenity_id: {{ amenity_id }}</p>
+
+<p>recent_votes:</p>
+<ul>
+    {% for vote in recent_votes %}
+    <li>{{ vote }}</li>
+    {% endfor %}
+</ul>
+
+<p>available_amenities:</p>
+<ul>
+    {% for amenity, available in available_amenities.items %}
+    <li>{{ amenity }}: {{ available }}</li>
+    {% endfor %}
+</ul>
+
+<p>amenity[0]: {{ amenity.0 }}</p>
+
 
 {% endblock %}
