@@ -196,7 +196,7 @@ def remove_favourite(request, place_id):
 
 class ReviewCreate(LoginRequiredMixin, CreateView):
    model = Review
-   fields = ['comment', 'rating']
+   fields = ['date', 'comment', 'rating']
 
    def form_valid(self, form):
     form.instance.place = Place.objects.get(pk=self.kwargs['place_pk'])
