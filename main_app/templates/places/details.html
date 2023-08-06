@@ -32,12 +32,13 @@
     <div class="grid grid-cols-2 gap-4" style="max-height: 450px; overflow-y: auto;">
         {% for review in place.review_set.all %}
             <a href="{% url 'profile_details' review.profile.user.id %}">
-                <div class="w-full bg-primary text-light rounded-lg shadow-md p-4 cursor-pointer">
-                    <div class="flex items-center">
-                        <img src="https://via.placeholder.com/50" alt="Avatar" class="w-10 h-10 rounded-full mr-4">
-                        <p>{{review.profile.user.username}}</p>
+                <div class="w-full bg-primary text-dark rounded-lg shadow-md p-4 cursor-pointer">
+                    <div class="flex items-center mb-4">
+                        <img src="https://via.placeholder.com/50" alt="Avatar" class="w-10 h-10 rounded-full mr-2">
+                        <p class="text-body-lg dp:text-h6">{{review.profile.user.username}}</p>
                     </div>
-                    <p>{{review.comment}}</p>
+                    <p class="text-body dp:text-body-lg">{{review.comment}}</p>
+                    <p class="text-body-sm">{{review.rating}} stars</p>
                     {% if request.user == review.profile.user %}
                         <form action="{% url 'review_delete' pk=review.pk %}" method="POST">
                             {% csrf_token %}

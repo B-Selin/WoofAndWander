@@ -892,6 +892,10 @@ select {
   margin-left: 2rem;
 }
 
+.mb-5 {
+  margin-bottom: 1.25rem;
+}
+
 .block {
   display: block;
 }
@@ -1483,6 +1487,10 @@ select {
 
 .text-h5 {
   font-size: 27.64px;
+}
+
+.text-body-sm {
+  font-size: 13.33px;
 }
 
 .font-bold {
@@ -2233,6 +2241,10 @@ select {
 
   .dp\:text-h5 {
     font-size: 27.64px;
+  }
+
+  .dp\:text-h6 {
+    font-size: 23.04px;
   }
 
   .dp\:font-bold {
