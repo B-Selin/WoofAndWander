@@ -1,56 +1,56 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Place Details</h1>
-<h3>{{ place.name }}
-    {% if avg_rating %}
-    ({{ avg_rating|floatformat }}/5)
-    {% endif %}
-</h3>
+<div class="m-4 text-dark ">
+    <h3 class="font-header font-bold text-h4 dp:text-h2">{{ place.name }}</h3>
+    <p class="font-body text-body-lg">{{place.category}}</p>
+    <p class="font-body hidden dp:block text-body-lg">{{place.address}}</p>
+    <p class="font-body">
+        {% if avg_rating %}
+        {{ avg_rating|floatformat }}/5 stars
+        {% endif %}
+    </p>
 
-<p>{{place.address}}</p>
-<p>{{place.category}}</p>
+    <h3>Reviews</h3>
+    {% for review in place.review_set.all %}
+    <div>
+        <p>{{review.profile.user.username}}</p>
+        <p>{{review.comment}}</p>
+        <p>{{review.rating}}</p>
+        {% if request.user == review.profile.user %}
+        <form action="{% url 'review_delete' pk=review.pk %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">Delete Review</button>
+        </form>
+        {% endif %}
+    </div>
+    {% endfor %}
 
-<h3>Reviews</h3>
-{% for review in place.review_set.all %}
-<div>
-    <p>{{review.profile.user.username}}</p>
-    <p>{{review.comment}}</p>
-    <p>{{review.rating}}</p>
-    {% if request.user == review.profile.user %}
-    <form action="{% url 'review_delete' pk=review.pk %}" method="POST">
+    {% if is_favourite %}
+
+    <form action="{% url 'remove_favourite' place.id %}" method="POST">
         {% csrf_token %}
-        <button type="submit">Delete Review</button>
+        <button type="submit">Remove from Favourites</button>
     </form>
+
+
+    {% else %}
+
+    <form action="{% url 'add_favourite' place.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">Add to Favourites</button>
+    </form>
+
     {% endif %}
+
+    <form action="{% url 'review_create' place_pk=place.pk %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <label for="reviews">Reviews:</label>
+        <textarea name="comment" cols="30" rows="5"></textarea><br><br>
+        <label for="rating">Rating:</label>
+        <input type="number" name="rating" min="1" max="5"><br><br>
+        <button type="submit">Add Review</button>
+    </form>
 </div>
-{% endfor %}
-
-{% if is_favourite %}
-
-<form action="{% url 'remove_favourite' place.id %}" method="POST">
-    {% csrf_token %}
-    <button type="submit">Remove from Favourites</button>
-</form>
-
-
-{% else %}
-
-<form action="{% url 'add_favourite' place.id %}" method="POST">
-    {% csrf_token %}
-    <button type="submit">Add to Favourites</button>
-</form>
-
-{% endif %}
-
-<form action="{% url 'review_create' place_pk=place.pk %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <label for="reviews">Reviews:</label>
-    <textarea name="comment" cols="30" rows="5"></textarea><br><br>
-    <label for="rating">Rating:</label>
-    <input type="number" name="rating" min="1" max="5"><br><br>
-    <button type="submit">Add Review</button>
-</form>
-
 {% endblock %}

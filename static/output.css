@@ -2231,6 +2231,10 @@ select {
     font-size: 19.2px;
   }
 
+  .dp\:text-h5 {
+    font-size: 27.64px;
+  }
+
   .dp\:font-bold {
     font-weight: 700;
   }
