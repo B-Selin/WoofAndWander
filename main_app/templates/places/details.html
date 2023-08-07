@@ -57,6 +57,7 @@
                     <img src="{% static 'src/images/avatar.svg' %}" alt="Avatar" class="w-10 h-10 rounded-full mr-2">
                     <p class="text-body-lg dp:text-h6">{{review.profile.user.username}}</p>
                 </div>
+                <p class="text-body-sm">{{review.date}}</p>
                 <p class="text-body dp:text-body-lg">{{review.comment}}</p>
                 <p class="text-body-sm">{{review.rating}} stars</p>
                 {% if request.user == review.profile.user %}
