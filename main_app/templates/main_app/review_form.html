@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="m-4">
+<div class="m-4 font-body">
     <h1 class="font-header text-dark font-bold text-h6 dp:text-h4">Review for {{ place.name }}</h1>  
     <form action="{% url 'review_create' place_pk=place_pk %}" method="POST" class="flex flex-col font-body text-dark">
         {% csrf_token %}
-        <label for="rating" class="text-h6 dp:text-h5">Date:</label>
+        <label for="rating" class="text-h6 dp:text-h5">Date visited:</label>
         <input type="date" name="date">
         <label for="rating" class="text-h6 dp:text-h5">Overall:</label>
         <input type="number" name="rating" min="1" max="5">
         <label for="reviews" class="text-h6 dp:text-h5 ">Comments:</label>
         <textarea name="comment" cols="30" rows="5"></textarea>
-        <div class="bg-accent">
-            <button type="submit">SUBMIT REVIEW</button>
+        <div class="">
+            <button type="submit" class="bg-accent mt-4 py-2 px-4 rounded-lg font-bold text-light shadow-md">SUBMIT REVIEW</button>
         </div>
     </form>
 </div>
