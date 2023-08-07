@@ -2,7 +2,7 @@
 {% block content %}
 {% load static %}
 
-<div class="m-4 text-dark font-body">
+<div class="m-4 text-dark font-body space-y-4">
     <h3 class="font-header font-bold text-h4">{{ place.name }}</h3>
     <p class="text-body-lg">{{place.category}}</p>
     <p class="hidden dp:block text-body-lg">{{place.address}}</p>
@@ -11,7 +11,7 @@
         {{ avg_rating|floatformat }}/5 stars
         {% endif %}
     </p>
-    <a href="https://www.google.com/maps/search/?api=1&query={{ place.address}}" target="_blank" class="bg-secondary text-light font-bold px-4 py-2 rounded-md">DIRECTIONS</a>
+    <a href="https://www.google.com/maps/search/?api=1&query={{ place.address}}" target="_blank" class="bg-secondary text-light font-bold px-4 py-2 rounded-md shadow-sm hover:opacity-90">DIRECTIONS</a>
     {% if is_favourite %}
 
     <form action="{% url 'remove_favourite' place.id %}" method="POST">
@@ -44,7 +44,7 @@
     {% endfor %}
 </ul>
 
-    <h3 class="text-h6 font-header font-bold">Reviews</h3>
+<h3 class="text-h6 font-header font-bold">Reviews</h3>
     <div class="grid grid-cols-2 gap-4 overflow-y-auto max-h-[450px]">
         {% for review in place.review_set.all %}
             <a href="{% url 'profile_details' review.profile.user.id %}">
@@ -67,6 +67,6 @@
     </div>
 </div>
 <div class="text-center mt-4">
-    <a href="{% url 'review_create' place_pk=place.pk %}" class="bg-accent px-4 py-2 rounded-lg text-light font-bold font-body shadow-md inline-block">SHARE YOUR EXPERIENCE</a>
+    <a href="{% url 'review_create' place_pk=place.pk %}" class="bg-accent hover:opacity-90 px-4 py-2 rounded-lg text-light font-bold font-body shadow-md inline-block">SHARE YOUR EXPERIENCE</a>
 </div>
 {% endblock %}
