@@ -76,10 +76,10 @@
         <div id="addPetForm" class="hidden mt-4">
             <form action="{% url 'pet_create' profile.id %}" method="POST" class="flex flex-col font-body text-dark">
                 {% csrf_token %}
-                <input type="text" class="" placeholder="Pet name">
-                <input type="text" class="" placeholder="Pet breed">
+                <input type="text" class="text-body-lg border-dark border-2 bg-light text-dark placeholder-dark focus:ring-secondary rounded-lg mb-2" placeholder="Name">
+                <input type="text" class="text-body-lg border-dark border-2 bg-light text-dark placeholder-dark focus:ring-secondary rounded-lg" placeholder="Breed">
                 <div class="">
-                    <button type="submit" class="bg-accent mt-4 py-2 px-4 rounded-lg font-bold text-light shadow-md">SUBMIT</button>
+                    <button type="submit" class="bg-accent mt-4 py-2 px-4 rounded-lg font-bold text-light shadow-md hover:opacity-90">SUBMIT</button>
                 </div>
             </form>
         </div>
