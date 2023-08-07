@@ -12,7 +12,7 @@
     {% endfor %}
     <div class="grid grid-cols-1 dp:grid-cols-2 gap-4">
         {% for pet in pets %}
-        <div class="bg-primary rounded shadow p-4 relative">
+        <div class="bg-primary rounded shadow p-4">
             <div class="mb-4">
                 {% if pet.photos.all %}
                     <img src="{{ pet.photos.first.url }}" alt="{{ pet.name }}" class="h-24 rounded-full">
@@ -25,7 +25,7 @@
             <div class="mb-4">
                 <div class="relative inline-block dropdown">
                     <button class="bg-light rounded-lg px-2 py-1text-body-sm" onclick="toggleDropdown(event)">ACTIONS</button>
-                    <div class="absolute hidden px-4 py-2 shadow-lg rounded text-body bg-light text-dark font-bold divide-y divide-dark whitespace-nowrap mt-2 border border-dark">
+                    <div class="absolute hidden px-4 py-2 shadow-lg rounded text-body bg-light text-dark font-bold divide-y divide-dark whitespace-nowrap mt-2 border border-dark z-50">
                         {% if user == profile.user %}
                             {% if pet.photos.all %}
                                 <form action="{% url 'delete_photo' pet.id pet.photos.first.id %}" method="post">
