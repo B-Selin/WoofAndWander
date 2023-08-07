@@ -1,12 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Add Place</h1>
+<div class="m-4 font-body">
+  <h1 class="font-header font-bold text-h6 dp:text-h3 mb-4">Place search</h1>
   <form id="place-form" method="POST" action="{% url 'add_place' %}">
-  {% csrf_token %}
-  <input id="place-search" type="text" name="place" placeholder="Search for a place">
-  <button type="submit">Submit</button>
+    {% csrf_token %}
+    <div class="flex flex-col">
+      <input id="place-search" type="text" name="place" placeholder="Search establishments" class="bg-light text-dark placeholder-dark rounded-md">
+      <div>
+      <button type="submit" class="bg-accent mt-4 py-2 px-4 rounded-lg shadow-lg text-light font-bold">SUBMIT PLACE</button>
+      </div>
+    </div>
   </form>
+</div>
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const input = document.getElementById('place-search');
