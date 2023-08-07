@@ -12,20 +12,24 @@
     {% endfor %}
     <div class="grid grid-cols-1 dp:grid-cols-2 gap-4">
         {% for pet in pets %}
-        <div class="bg-primary rounded shadow p-4">
-            <div class="mb-4">
-                {% if pet.photos.all %}
-                    <img src="{{ pet.photos.first.url }}" alt="{{ pet.name }}" class="h-24 rounded-full">
-                {% else %}
-                    <img class="max-w-24 h-24 rounded-full object-cover bg-light" src="{% static 'src/images/defaultdogavatar.svg' %}" alt="Avatar">
-                {% endif %}
-            </div>
-            <h3 class="text-xl font-bold mb-2">{{ pet.name }}</h3>
-            <p class="mb-4">{{ pet.breed }}</p>
-            <div class="mb-4">
+        <div class="bg-primary rounded shadow p-4 flex flex-col text-light relative">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center"> 
+                    <div class="mr-4">
+                        {% if pet.photos.all %}
+                            <img src="{{ pet.photos.first.url }}" alt="{{ pet.name }}" class="h-24 rounded-full">
+                        {% else %}
+                            <img class="w-4 h-24 rounded-full object-cover bg-light" src="{% static 'src/images/defaultdogavatar.svg' %}" alt="Avatar">
+                        {% endif %}
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="font-bold font-header text-h4">{{ pet.name }}</h3>
+                        <p class="font-body text-body-lg dp:text-h6">{{ pet.breed }}</p>
+                    </div>
+                </div>
                 <div class="relative inline-block dropdown">
-                    <button class="bg-light rounded-lg px-2 py-1text-body-sm" onclick="toggleDropdown(event)">ACTIONS</button>
-                    <div class="absolute hidden px-4 py-2 shadow-lg rounded text-body bg-light text-dark divide-y divide-dark whitespace-nowrap mt-2 border border-dark z-50">
+                    <button class="bg-light rounded-lg px-2 py-1 text-body-sm text-dark" onclick="toggleDropdown(event)">ACTIONS</button>
+                    <div class="absolute hidden px-4 py-2 shadow-lg rounded text-body bg-light text-dark divide-y divide-dark whitespace-nowrap border border-dark z-50 mt-2">
                         {% if user == profile.user %}
                             {% if pet.photos.all %}
                                 <form action="{% url 'delete_photo' pet.id pet.photos.first.id %}" method="post">
@@ -36,23 +40,23 @@
                                 <form action="{% url 'add_photo' pet.id %}" enctype="multipart/form-data" method="POST" class="flex flex-col">
                                     {% csrf_token %}
                                     <input type="file" name="photo-file" class="mb-2">
-                                    <button type="submit" class="text-accent font-bold ">Upload Photo</button>
+                                    <button type="submit" class="text-accent font-bold">Upload Photo</button>
                                 </form>
                             {% endif %}
                             <form action="{% url 'pet_delete' pet.id %}" method="post">
                                 {% csrf_token %}
-                                <button type="submit" class="font-bold ">Remove Pet</button>
+                                <button type="submit" class="font-bold">Remove Pet</button>
                             </form>
                             <form action="{% url 'pet_edit' pet.id %}" method="post">
                                 {% csrf_token %}
-                                <button type="submit" class="font-bold ">Edit Pet</button>
+                                <button type="submit" class="font-bold">Edit Pet</button>
                             </form>
                         {% endif %}
                     </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
+            </div>
+        {% endfor %}
     </div>
     <!-- Add links to edit user profile and add new pet -->
     {% if user == profile.user %}
