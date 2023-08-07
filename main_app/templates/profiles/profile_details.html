@@ -63,6 +63,11 @@
         {% endfor %}
     </tbody>
 </table>
+<h3>Favorite Places</h3>
+
+{% for favourite in favourites %}
+<a href="{% url 'place_details' favourite.place.id %}">{{ favourite.place.name }}</a>
+{% endfor %}
 </div>
 <!-- Add links to edit user profile and add new pet -->
 {% if user == profile.user %}
@@ -74,10 +79,6 @@
 </form>
 {% endif %}
 
-<h3>Favorite Places</h3>
 
-{% for favourite in favourites %}
-<a href="{% url 'place_details' favourite.place.id %}">{{ favourite.place.name }}</a>
-{% endfor %}
 
 {% endblock %}
