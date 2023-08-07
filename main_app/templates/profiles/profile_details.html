@@ -39,7 +39,7 @@
                 </div>
                 <div class="relative inline-block dropdown">
                     {% if user == profile.user %}
-                    <button class="bg-light rounded-lg px-2 py-1 text-body-sm text-dark" onclick="toggleDropdown(event)">ACTIONS</button>
+                    <button class="bg-light rounded-lg px-2 py-1 text-body-sm text-dark hover:opacity-90" onclick="toggleDropdown(event)">ACTIONS</button>
                     <div class="absolute hidden px-4 py-2 shadow-lg rounded text-body bg-light text-dark divide-y divide-dark whitespace-nowrap border border-dark right-0 z-50 mt-2">
                             {% if pet.photos.all %}
                                 <form action="{% url 'delete_photo' pet.id pet.photos.first.id %}" method="post">
@@ -76,8 +76,8 @@
         <div id="addPetForm" class="hidden mt-4">
             <form action="{% url 'pet_create' profile.id %}" method="POST" class="flex flex-col font-body text-dark">
                 {% csrf_token %}
-                <input type="text" class="text-body-lg border-dark border-2 bg-light text-dark placeholder-dark focus:ring-secondary rounded-lg mb-2" placeholder="Name">
-                <input type="text" class="text-body-lg border-dark border-2 bg-light text-dark placeholder-dark focus:ring-secondary rounded-lg" placeholder="Breed">
+                <input type="text" name="{{ pet_form.name.html_name }}" class="text-body-lg border-dark border-2 bg-light text-dark placeholder-dark focus:ring-secondary rounded-lg mb-2" placeholder="Name" value="{{ pet_form.name.value|default:'' }}">
+                <input type="text" name="{{ pet_form.breed.html_name }}" class="text-body-lg border-dark border-2 bg-light text-dark placeholder-dark focus:ring-secondary rounded-lg" placeholder="Breed" value="{{ pet_form.breed.value|default:'' }}">
                 <div class="">
                     <button type="submit" class="bg-accent mt-4 py-2 px-4 rounded-lg font-bold text-light shadow-md hover:opacity-90">SUBMIT</button>
                 </div>
