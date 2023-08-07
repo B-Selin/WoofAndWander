@@ -12,8 +12,8 @@ The app features tips, and recommendations on various pet-friendly activities, t
 
 
 ## Planning Process
-- Visit the [Trello board](https://trello.com/b/fweFLvEm/woof-wander) to view tasks and progress.
-- This was our idea [Pitch Deck](https://www.canva.com/design/DAFp4qZSUjQ/f8v0nU1umbpiq07k-k1-Gg/edit?utm_source=shareButton&utm_medium=email&utm_campaign=designshare).
+- Visit our [Trello board](https://trello.com/b/fweFLvEm/woof-wander) to view tasks and progress.
+- View our idea pitch [here](https://www.canva.com/design/DAFp4qZSUjQ/f8v0nU1umbpiq07k-k1-Gg/edit?utm_source=shareButton&utm_medium=email&utm_campaign=designshare).
 
 
 ### Technologies
