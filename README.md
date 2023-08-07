@@ -39,6 +39,6 @@ Save places as your favourires for future visits
 - [X] Filter results by categories like restaurants, trails, dog parks etc.
 - [X] View details like reviews, amenities for each location
 - [ ] Save locations to custom lists like "Favorite Hikes", "Dog-friendly Patios" etc.
-- [X]User profiles to share info about yourself and your pets
+- [X] User profiles to share info about yourself and your pets
 - [ ] Photo galleries of pets
 - [ ] Tips and recommendations for enjoying activities with dogs
