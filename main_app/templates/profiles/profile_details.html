@@ -70,15 +70,17 @@
     </div>
     <!-- Add links to edit user profile and add new pet -->
     {% if user == profile.user %}
-    <button id="toggleAddPetBtn" class="bg-accent py-2 px-4 rounded-lg font-body font-bold text-light mt-4">
+    <button id="toggleAddPetBtn" class="bg-secondary py-2 px-4 rounded-lg font-body font-bold text-light mt-4">
         ADD PET
     </button>
-        <div id="addPetForm" class="hidden">
-            <form action="{% url 'pet_create' profile.id %}" method="POST">
+        <div id="addPetForm" class="hidden mt-4">
+            <form action="{% url 'pet_create' profile.id %}" method="POST" class="flex flex-col font-body text-dark">
                 {% csrf_token %}
-                <!-- Render the inputs -->
-                {{ pet_form.as_p }}
-                <input type="submit" class="btn" value="Add Pet">
+                <input type="text" class="" placeholder="Pet name">
+                <input type="text" class="" placeholder="Pet breed">
+                <div class="">
+                    <button type="submit" class="bg-accent mt-4 py-2 px-4 rounded-lg font-bold text-light shadow-md">SUBMIT</button>
+                </div>
             </form>
         </div>
     </div>
