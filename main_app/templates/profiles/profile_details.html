@@ -6,7 +6,7 @@
     <p class="font-header font-bold text-h5 dp:text-h3">{{profile.user.username}}</p>
     <p class="text-body-lg dp:text-h6">{{profile.user.profile.city}}</p>
     <p class="text-body dp:text-body-lg">{{ contributions }} contributions</p>
-    <div class="mt-4 mb-4 text-body-lg">
+    <div class="mt-4 text-body-lg">
     <h3 class="font-bold text-h6 dp:text-h5">Favorite Places</h3>
     {% if favourites %}
         {% for favourite in favourites %}
@@ -22,7 +22,7 @@
     </div>
     <div class="grid grid-cols-1 dp:grid-cols-2 gap-4">
         {% for pet in pets %}
-        <div class="bg-primary rounded shadow p-4 flex flex-col text-light relative">
+        <div class="bg-primary rounded shadow p-4 flex flex-col text-light relative mt-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center"> 
                     <div class="mr-4">
@@ -70,9 +70,7 @@
     </div>
     <!-- Add links to edit user profile and add new pet -->
     {% if user == profile.user %}
-    <button id="toggleAddPetBtn" class="bg-secondary py-2 px-4 rounded-lg font-body font-bold text-light mt-2">
-        ADD PET
-    </button>
+    <button id="toggleAddPetBtn" class="bg-secondary py-2 px-4 rounded-lg font-body mt-4 font-bold text-light hover:opacity-90">ADD PET</button>
         <div id="addPetForm" class="hidden mt-4">
             <form action="{% url 'pet_create' profile.id %}" method="POST" class="flex flex-col font-body text-dark">
                 {% csrf_token %}
