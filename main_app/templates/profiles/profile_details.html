@@ -25,7 +25,7 @@
             <div class="mb-4">
                 <div class="relative inline-block dropdown">
                     <button class="" onclick="toggleDropdown(event)">Actions</button>
-                    <div class="dropdown-content absolute hidden">
+                    <div class="absolute hidden px-4 py-2 shadow-lg rounded text-body bg-light text-dark font-bold divide-y divide-dark whitespace-nowrap mt-2 border border-dark">
                         {% if user == profile.user %}
                             {% if pet.photos.all %}
                                 <form action="{% url 'delete_photo' pet.id pet.photos.first.id %}" method="post">
@@ -54,9 +54,12 @@
         </div>
     {% endfor %}
     </div>
-    <button id="toggleAddPetBtn" class="bg-accent py-2 px-4 rounded-lg font-body font-bold text-light">
+    {% if user == profile.user %}
+    <button id="toggleAddPetBtn" class="bg-accent py-2 px-4 rounded-lg font-body font-bold text-light mt-4">
         ADD PET
     </button>
+    {% endif %}
+
     <!-- Add links to edit user profile and add new pet -->
     {% if user == profile.user %}
         <div id="addPetForm" class="hidden">
