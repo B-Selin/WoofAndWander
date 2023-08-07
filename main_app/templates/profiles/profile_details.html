@@ -70,7 +70,7 @@
     </div>
     <!-- Add links to edit user profile and add new pet -->
     {% if user == profile.user %}
-    <button id="toggleAddPetBtn" class="bg-secondary py-2 px-4 rounded-lg font-body mt-4 font-bold text-light hover:opacity-90">ADD PET</button>
+    <button id="toggleAddPetBtn" class="bg-secondary py-2 px-4 rounded-lg font-body mt-4 font-bold text-light hover:opacity-90">ADD PET &#x25BE;</button>
         <div id="addPetForm" class="hidden mt-4">
             <form action="{% url 'pet_create' profile.id %}" method="POST" class="flex flex-col font-body text-dark">
                 {% csrf_token %}
@@ -81,6 +81,18 @@
                 </div>
             </form>
         </div>
+    </div>
+    <button id="toggleSearchCityBtn" class="rounded-lg font-body font-bold text-darkt hover:text-accent hover:opacity-90 ml-4 mt-2">CHANGE LOCATION &#x25BE;</button>
+    <div id="searchCityForm" class="hidden mt-4 ml-4">
+        <form id="city-form" method="POST" action="{% url 'search_city' %}">
+            {% csrf_token %}
+            <input id="city-search" type="text" name="city" placeholder="Search for your city" class="text-body-lg pr-16 dp:pr-20 bg-light text-dark placeholder-dark border-dark border-2 rounded-lg">
+            <input type="hidden" name="lat" id="city-lat">
+            <input type="hidden" name="lng" id="city-lng">
+            <div class="w-full flex mt-4">
+                <button type="submit" class="bg-accent rounded-md px-4 py-2 text-light font-bold drop-shadow-sm hover:bg-opacity-90">CONFIRM CITY</button>
+            </div>
+        </form>
     </div>
     <div class="m-4 mt-8">
         <a href="{% url 'logout' %}" class="py-2 px-4 bg-light font-bold border-dark border-2 rounded-lg hover:text-accent">LOG OUT</a>
@@ -105,5 +117,26 @@
             });
         }
     });
+
+    document.getElementById("toggleSearchCityBtn").addEventListener("click", () => {
+        document.getElementById("searchCityForm").classList.toggle("hidden");
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('city-search');
+    const autocomplete = new google.maps.places.Autocomplete(input, {types: ['(cities)']});
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+      const place = autocomplete.getPlace();
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
+
+      document.getElementById('city-lat').value = lat;
+      document.getElementById('city-lng').value = lng;
+    });
+
+    document.getElementById('city-form').addEventListener('submit', function(event) {
+    });
+  });
 </script>
 {% endblock %}
