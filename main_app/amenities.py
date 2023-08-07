@@ -94,4 +94,16 @@ AMENITY_CHOICES = [
         ("pet_friendly_zoo", "Pet-Friendly Zoo"),
         ("potty_location", "Potty Location"),
     )),
+    ("bar", (
+        ("dog_treats", "Dog Treats"),
+        ("potty_area", "Potty Area"),        
+        ("outdoor_seating", "Outdoor Seating"),
+        ("indoor_seating", "Indoor Seating"),
+        ("peaceful_walking_area", "Peaceful Walking Area"),
+    )),
+    ("tourist_attraction", (
+        ("outdoor_seating", "Outdoor Seating"),
+        ("peaceful_walking_area", "Peaceful Walking Area"),
+    )),
+
 ]
