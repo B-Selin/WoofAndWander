@@ -1,4 +1,4 @@
-# Woof and Wander [Live Link](https://woofandwander-bf1fe9421e1f.herokuapp.com/)
+# [Woof and Wander](https://woofandwander-bf1fe9421e1f.herokuapp.com/)
 The app features tips, and recommendations on various pet-friendly activities, trails, parks, restaurants, patios, and other places where dogs are welcome.
 
 ### Features
