@@ -1,25 +1,19 @@
-# WoofAndWander
+# Woof and Wander [Live Link](https://woofandwander-bf1fe9421e1f.herokuapp.com/)
 The app features tips, and recommendations on various pet-friendly activities, trails, parks, restaurants, patios, and other places where dogs are welcome.
 
 ### Features
-Search for pet-friendly establishments b# WoofAndWander
-
-[The Woof and Wander app](https://woofandwander-bf1fe9421e1f.herokuapp.com/) features tips, and recommendations on various pet-friendly activities, trails, parks, restaurants, patios, and other places where dogs are welcome.
+- Search for pet-friendly establishments nearby
+- Filter results by categories based on place types restaurants, trails, dog parks etc.
+- Rate your experience based on pet-friendliness
+- Show off your pets for other users to see
+- Save places to your favorites
 
 ## Screenshots
 
 
-## Getting Started
-
+## Planning Process
 - Visit the [Trello board](https://trello.com/b/fweFLvEm/woof-wander) to view tasks and progress.
-
 - This was our idea [Pitch Deck](https://www.canva.com/design/DAFp4qZSUjQ/f8v0nU1umbpiq07k-k1-Gg/edit?utm_source=shareButton&utm_medium=email&utm_campaign=designshare).
-
-## Features
-Search for pet-friendly establishments by location
-Filter results by categories like restaurants, trails, dog parks etc.
-View details like reviews, amenities for each location
-Save places as your favourires for future visits
 
 
 ### Technologies
@@ -32,7 +26,6 @@ Save places as your favourires for future visits
 
 
 ### IceBox features
-
 - [ ] Users can create activities and events
 - [ ] Provide input on availability of dog bowls, bag dispensers, etc.
 - [ ] Filter places by location
