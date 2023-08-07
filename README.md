@@ -20,6 +20,10 @@ The app features tips, and recommendations on various pet-friendly activities, t
 
 ## Screenshots
 
+![LogIn](/static/src/images/home-mobile.png)
+![Places Index](/static/src/images/places.png)
+![Place Search](/static/src/images/search.png)
+![Profile](/static/src/images/profile.png)
 
 
 ## Planning Process
