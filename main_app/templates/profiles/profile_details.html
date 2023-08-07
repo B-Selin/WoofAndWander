@@ -1,73 +1,72 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="m-4">
-<p>{{profile.user.username}}</p>
-<p>{{profile.user.profile.city}}</p>
-<!-- user.name has made {number} of contributions -->
-<p>{{profile.user.username}} has so far made {{ contributions }} contributions</p>
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Breed</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for pet in pets %}
-        <tr>
-            <td>{{pet.name}}</td>
-            <td>{{pet.breed}}</td>
-            <td>
-                {% for photo in pet.photos.all %}
-                <a href="{{photo.url}}" target="_blank">
-                    <img class="responsive-img thumbnail" src="{{photo.url}}" alt="{{pet.name}}" width="150">
-                </a>
-                <!-- add a delete button for evry photo -->
+<div class="m-4 font-body text-dark">
+    <p class="font-header font-bold text-h5 dp:text-h3">{{profile.user.username}}</p>
+    <p class="text-body-lg dp:text-h6">{{profile.user.profile.city}}</p>
+    <p class="text-body dp:text-body-lg">{{ contributions }} contributions</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Breed</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pet in pets %}
+            <tr>
+                <td>{{pet.name}}</td>
+                <td>{{pet.breed}}</td>
+                <td>
+                    {% for photo in pet.photos.all %}
+                    <a href="{{photo.url}}" target="_blank">
+                        <img class="responsive-img thumbnail" src="{{photo.url}}" alt="{{pet.name}}" width="150">
+                    </a>
+                    <!-- add a delete button for every photo -->
 
+                    {% if user == profile.user %}
+                    <form action="{% url 'delete_photo' pet.id photo.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Remove Photo</button>
+                    </form>
+                    {% endif %}
+
+                    {% empty %}
+                    <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+                    {% endfor %}
+                </td>
                 {% if user == profile.user %}
-                <form action="{% url 'delete_photo' pet.id photo.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Remove Photo</button>
-                </form>
+                <td>
+                    <form action="{% url 'add_photo' pet.id %}" enctype="multipart/form-data" method="POST"
+                        class="card-panel">
+                        {% csrf_token %}
+                        <input type="file" name="photo-file">
+                        <br><br>
+                        <button type="submit" class="btn">Upload Photo</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="{% url 'pet_delete' pet.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Remove</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="{% url 'pet_edit' pet.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Edit</button>
+                    </form>
+                </td>
                 {% endif %}
 
-                {% empty %}
-                <div class="card-panel teal-text center-align">No Photos Uploaded</div>
-                {% endfor %}
-            </td>
-            {% if user == profile.user %}
-            <td>
-                <form action="{% url 'add_photo' pet.id %}" enctype="multipart/form-data" method="POST"
-                    class="card-panel">
-                    {% csrf_token %}
-                    <input type="file" name="photo-file">
-                    <br><br>
-                    <button type="submit" class="btn">Upload Photo</button>
-                </form>
-            </td>
-            <td>
-                <form action="{% url 'pet_delete' pet.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Remove</button>
-                </form>
-            </td>
-            <td>
-                <form action="{% url 'pet_edit' pet.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Edit</button>
-                </form>
-            </td>
-            {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Favorite Places</h3>
 
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<h3>Favorite Places</h3>
-
-{% for favourite in favourites %}
-<a href="{% url 'place_details' favourite.place.id %}">{{ favourite.place.name }}</a>
-{% endfor %}
+    {% for favourite in favourites %}
+    <a href="{% url 'place_details' favourite.place.id %}">{{ favourite.place.name }}</a>
+    {% endfor %}
 </div>
 <!-- Add links to edit user profile and add new pet -->
 {% if user == profile.user %}
@@ -78,7 +77,5 @@
     <input type="submit" class="btn" value="Add Pet">
 </form>
 {% endif %}
-
-
 
 {% endblock %}
