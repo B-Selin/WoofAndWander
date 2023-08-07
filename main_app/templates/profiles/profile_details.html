@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<h1>User Profile</h1>
+<div class="m-4">
 <p>{{profile.user.username}}</p>
 <p>{{profile.user.profile.city}}</p>
 <!-- user.name has made {number} of contributions -->
@@ -64,6 +63,7 @@
         {% endfor %}
     </tbody>
 </table>
+</div>
 <!-- Add links to edit user profile and add new pet -->
 {% if user == profile.user %}
 <form action="{% url 'pet_create' profile.id %}" method="POST">
