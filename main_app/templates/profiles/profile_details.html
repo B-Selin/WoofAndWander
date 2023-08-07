@@ -25,27 +25,27 @@
             <div class="mb-4">
                 <div class="relative inline-block dropdown">
                     <button class="bg-light rounded-lg px-2 py-1text-body-sm" onclick="toggleDropdown(event)">ACTIONS</button>
-                    <div class="absolute hidden px-4 py-2 shadow-lg rounded text-body bg-light text-dark font-bold divide-y divide-dark whitespace-nowrap mt-2 border border-dark z-50">
+                    <div class="absolute hidden px-4 py-2 shadow-lg rounded text-body bg-light text-dark divide-y divide-dark whitespace-nowrap mt-2 border border-dark z-50">
                         {% if user == profile.user %}
                             {% if pet.photos.all %}
                                 <form action="{% url 'delete_photo' pet.id pet.photos.first.id %}" method="post">
                                     {% csrf_token %}
-                                    <button type="submit" class="">Remove Photo</button>
+                                    <button type="submit" class="font-bold">Remove Photo</button>
                                 </form>
                             {% else %}
-                                <form action="{% url 'add_photo' pet.id %}" enctype="multipart/form-data" method="POST">
+                                <form action="{% url 'add_photo' pet.id %}" enctype="multipart/form-data" method="POST" class="flex flex-col">
                                     {% csrf_token %}
                                     <input type="file" name="photo-file" class="mb-2">
-                                    <button type="submit" class="">Upload Photo</button>
+                                    <button type="submit" class="text-accent font-bold ">Upload Photo</button>
                                 </form>
                             {% endif %}
                             <form action="{% url 'pet_delete' pet.id %}" method="post">
                                 {% csrf_token %}
-                                <button type="submit" class="">Remove Pet</button>
+                                <button type="submit" class="font-bold ">Remove Pet</button>
                             </form>
                             <form action="{% url 'pet_edit' pet.id %}" method="post">
                                 {% csrf_token %}
-                                <button type="submit" class="">Edit Pet</button>
+                                <button type="submit" class="font-bold ">Edit Pet</button>
                             </form>
                         {% endif %}
                     </div>
