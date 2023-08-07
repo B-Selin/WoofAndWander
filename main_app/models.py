@@ -56,7 +56,7 @@ class Photo(models.Model):
     
 class Review(models.Model):
     date = models.DateField('review date', default=datetime.date.today)
-    comment = models.TextField(max_length=150)
+    comment = models.TextField(max_length=300)
     rating = models.IntegerField(default=5)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
