@@ -1,10 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 class="font-bold font-header text-h4 dp:text-h1 ml-8 m-4">Places near you</h1>
+    <h1 class="font-bold font-header text-h4 dp:text-h1 m-4">Places near you</h1>
+    <div class="m-4">
+    <a href="{% url 'add_place' %}" class="bg-accent py-2 px-4 shadow-md text-light font-bold font-body rounded-lg">ADD PLACE</a>
+    </div>
+    <form id="cityFilterForm" method="GET" class="mb-4 font-body text-dark">
+        <select name="selected_city" id="citySelect" class="font-bold ml-4 rounded px-4 py-1 bg-secondary border-none pr-8">
+            <option value="" class="">All Cities</option>
+            {% for city in cities %}
+                <option value="{{ city }}">{{ city }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="">Filter</button>
+    </form>
     <!-- added category filter -->
-    <form id="categoryFilterForm" method="GET">
-        <select name="selected_category" id="categorySelect" class="border rounded px-4 ml-8 py-1 bg-secondary border-none pr-8 focus:ring-secondary">
+    <form id="categoryFilterForm" method="GET" class="font-body text-dark">
+        <select name="selected_category" id="categorySelect" class="ml-4 rounded px-4 py-1 bg-light border-dark border-1 pr-8 font-bold">
             <option value="" class="">All Categories</option>
             {% for category in categories %}
                 <option value="{{ category }}">{{ category }}</option>
@@ -13,16 +25,15 @@
         <button type="submit" class="">Filter</button>
     </form>
     <!-- end -->
-    <div class="grid grid-cols-1 m-8 gap-4">
+    <div class="grid grid-cols-1 m-4 gap-4">
         {% for place in places %}
             <a href="{% url 'place_details' place.id %}">
                 <div class="w-full bg-primary text-light rounded-lg shadow-md p-4 cursor-pointer">
                     <h3 class="text-h5 dp:text-h4 font-header font-bold">{{ place.name }}</h3>
                     <p class="text-body font-body dp:text-body-lg dp:font-bold">{{ place.category}}</p>
                     <p class="hidden font-body dp:block">{{ place.address }}</p>
-                    <a href="https://www.google.com/maps/search/?api=1&query={{ place.address }}" target="_blank">Directions</a>
                     <p class="font-body">Average Rating: {{ place.avg_rating|floatformat:1 }}</p>
-                    <a href="{% url 'profile_details' place.profile.user.id %}">Added by: {{ place.profile.user.username }}</a>
+                    <a href="{% url 'profile_details' place.profile.user.id %}" class="hidden dp:block">Added by: {{ place.profile.user.username }}</a>
                 </div>
             </a>
         {% endfor %}

@@ -43,22 +43,29 @@ def signup(request):
   return render(request, 'registration/signup.html', context)
 
 def places_index(request):
-  selected_category = request.GET.get('selected_category', '')
-  places = Place.objects.select_related('profile')
-  places = Place.objects.annotate(avg_rating=Avg('review__rating'))
+    selected_category = request.GET.get('selected_category', '')
+    places = Place.objects.select_related('profile')
+    places = Place.objects.annotate(avg_rating=Avg('review__rating'))
+    cities = Place.objects.values_list('city', flat=True).distinct()
 
-  if selected_category:
-     places = places.filter(category=selected_category)
+    if selected_category:
+        places = places.filter(category=selected_category)
 
-  categories = Place.objects.values_list('category', flat=True).distinct()
-  
-  context = {
-     'selected_category': selected_category,
-     'places': places,
-     'categories': categories,
-  }
+    selected_city = request.GET.get('selected_city', '')
+    if selected_city:
+        places = places.filter(city=selected_city)
 
-  return render(request, 'places/index.html', context)
+    categories = Place.objects.values_list('category', flat=True).distinct()
+
+    context = {
+        'selected_category': selected_category,
+        'places': places,
+        'categories': categories,
+        'cities': cities,
+        'selected_city': selected_city
+    }
+
+    return render(request, 'places/index.html', context)
 
 @login_required
 def profile_details(request, profile_id):

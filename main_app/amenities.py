@@ -25,8 +25,6 @@ AMENITY_CHOICES = [
         ("dog_treats", "Dog Treats"),
         ("outdoor_seating", "Outdoor Seating"),
         ("peaceful_walking_area", "Peaceful Walking Area"),
-        ("dog_treats", "Dog Treats"),
-        ("outdoor_seating", "Outdoor Seating"),
     )),
     ("park", (
         ("off_leash_area", "Off-Leash Area"),

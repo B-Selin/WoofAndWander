@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 
-<div class="m-4 text-dark font-body">
+<div class="m-4 text-dark font-body space-y-4">
     <h3 class="font-header font-bold text-h4">{{ place.name }}</h3>
     <p class="text-body-lg">{{place.category}}</p>
     <p class="hidden dp:block text-body-lg">{{place.address}}</p>
@@ -10,46 +11,7 @@
         {{ avg_rating|floatformat }}/5 stars
         {% endif %}
     </p>
-
-
-<p>{{place.category}}</p>
-<br><br>
-<!-- loop through amenities -->
-
-<h3>Amenities</h3>
-<ul>
-    {% for category, amenities in amenities %}
-    {% for key, label in amenities %}
-
-    <li>{{ label }}
-    </li>
-
-    {% endfor %}
-    {% endfor %}
-</ul>
-<ul>{% for a in available_amenities %}
-    <li>{{ a }}</li>
-    {% endfor %}
-</ul>
-<br>
-<br>
-<h3>Reviews</h3>
-{% for review in place.review_set.all %}
-<div>
-    <p>{{review.profile.user.username}}</p>
-    <p>{{review.date}}</p>
-    <p>{{review.comment}}</p>
-    <p>{{review.rating}}</p>
-    {% if request.user == review.profile.user %}
-  
-    <form action="{% url 'review_delete' pk=review.pk %}" method="POST">
-            {% csrf_token %}
-            <button type="submit">Delete Review</button>
-        </form>
-        {% endif %}
-    </div>
-    {% endfor %}
-
+    <a href="https://www.google.com/maps/search/?api=1&query={{ place.address}}" target="_blank" class="bg-secondary text-light font-bold px-4 py-2 rounded-md shadow-sm hover:opacity-90">DIRECTIONS</a>
     {% if is_favourite %}
 
     <form action="{% url 'remove_favourite' place.id %}" method="POST">
@@ -64,36 +26,35 @@
         {% csrf_token %}
         <button type="submit">Add to Favourites</button>
     </form>
-
     {% endif %}
+<!-- loop through amenities -->
 
-    <h3 class="text-h6 font-header font-bold">Reviews</h3>
-    <div class="grid grid-cols-2 gap-4" style="max-height: 450px; overflow-y: auto;">
+<h3>Amenities</h3>
+<ul>
+    {% for category, amenities in amenities %}
+    {% for key, label in amenities %}
+
+    <li>{{ label }}</li>
+
+    {% endfor %}
+    {% endfor %}
+</ul>
+<ul>{% for a in available_amenities %}
+    <li>{{ a }}</li>
+    {% endfor %}
+</ul>
+
+<h3 class="text-h6 font-header font-bold">Reviews</h3>
+    <div class="grid grid-cols-2 gap-4 overflow-y-auto max-h-[450px]">
         {% for review in place.review_set.all %}
             <a href="{% url 'profile_details' review.profile.user.id %}">
                 <div class="w-full bg-primary text-dark rounded-lg shadow-md p-4 cursor-pointer">
                     <div class="flex items-center mb-4">
-                        <img src="https://via.placeholder.com/50" alt="Avatar" class="w-10 h-10 rounded-full mr-2">
+                        <img src="{% static 'src/images/avatar.svg' %}" alt="Avatar" class="w-10 h-10 rounded-full mr-2">
                         <p class="text-body-lg dp:text-h6">{{review.profile.user.username}}</p>
                     </div>
                     <p class="text-body dp:text-body-lg">{{review.comment}}</p>
                     <p class="text-body-sm">{{review.rating}} stars</p>
-                    <!-- loop through amenities -->
-                    <h3>Amenities</h3>
-                    <ul>
-                        {% for category, amenities in amenities %}
-                        {% for key, label in amenities %}
-                    
-                        <li>{{ label }}
-                        </li>
-                    
-                        {% endfor %}
-                        {% endfor %}
-                    </ul>
-                    <ul>{% for a in available_amenities %}
-                        <li>{{ a }}</li>
-                        {% endfor %}
-                    </ul>
                     {% if request.user == review.profile.user %}
                         <form action="{% url 'review_delete' pk=review.pk %}" method="POST">
                             {% csrf_token %}
@@ -102,10 +63,12 @@
                     {% endif %}
                 </div>
             </a>
+        {% empty %}
+            <p class="">No reviews yet</p>
         {% endfor %}
     </div>
-    <a href="{% url 'review_create' place_pk=place.pk %}">
-        <button class=" rounded">Add Review</button>
-    </a>
+</div>
+<div class="text-center mt-4">
+    <a href="{% url 'review_create' place_pk=place.pk %}" class="bg-accent hover:opacity-90 px-4 py-2 rounded-lg text-light font-bold font-body shadow-md inline-block">SHARE YOUR EXPERIENCE</a>
 </div>
 {% endblock %}
