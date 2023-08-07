@@ -12,72 +12,81 @@
     {% endfor %}
     <div class="grid grid-cols-1 dp:grid-cols-2 gap-4">
         {% for pet in pets %}
-            <div class="bg-primary rounded shadow p-4">
-                <div class="mb-4">
-                    {% for photo in pet.photos.all %}
-                    <img src="{{photo.url}}" alt="{{pet.name}}" class="h-24 rounded-full">
-                    {% if user == profile.user %}
-                    <form action="{% url 'delete_photo' pet.id photo.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit">Remove Photo</button>
-                    </form>
-                    {% endif %}
-                {% empty %}
+        <div class="bg-primary rounded shadow p-4 relative">
+            <div class="mb-4">
+                {% if pet.photos.all %}
+                    <img src="{{ pet.photos.first.url }}" alt="{{ pet.name }}" class="h-24 rounded-full">
+                {% else %}
                     <img class="max-w-24 h-24 rounded-full object-cover bg-light" src="{% static 'src/images/defaultdogavatar.svg' %}" alt="Avatar">
-                {% endfor %}
-                </div>
-                <h3 class="text-xl font-bold mb-2">{{pet.name}}</h3>
-                <p class="mb-4">{{pet.breed}}</p>
-                {% if user == profile.user %}
-                <div class="mb-4">
-                    <form action="{% url 'add_photo' pet.id %}" enctype="multipart/form-data" method="POST">
-                        {% csrf_token %}
-                        <input type="file" name="photo-file">
-                        <br><br>
-                        <button type="submit" class="btn">Upload Photo</button>
-                    </form>
-                </div>
-                <div class="mb-4">
-                    <form action="{% url 'pet_delete' pet.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit">Remove</button>
-                    </form>
-                </div>
-                <div>
-                    <form action="{% url 'pet_edit' pet.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit">Edit</button>
-                    </form>
-                </div>
                 {% endif %}
             </div>
-        {% endfor %}
+            <h3 class="text-xl font-bold mb-2">{{ pet.name }}</h3>
+            <p class="mb-4">{{ pet.breed }}</p>
+            <div class="mb-4">
+                <div class="relative inline-block dropdown">
+                    <button class="" onclick="toggleDropdown(event)">Actions</button>
+                    <div class="dropdown-content absolute hidden">
+                        {% if user == profile.user %}
+                            {% if pet.photos.all %}
+                                <form action="{% url 'delete_photo' pet.id pet.photos.first.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="">Remove Photo</button>
+                                </form>
+                            {% else %}
+                                <form action="{% url 'add_photo' pet.id %}" enctype="multipart/form-data" method="POST">
+                                    {% csrf_token %}
+                                    <input type="file" name="photo-file" class="mb-2">
+                                    <button type="submit" class="">Upload Photo</button>
+                                </form>
+                            {% endif %}
+                            <form action="{% url 'pet_delete' pet.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="">Remove Pet</button>
+                            </form>
+                            <form action="{% url 'pet_edit' pet.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="">Edit Pet</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
     </div>
-<button id="toggleAddPetBtn" class="bg-accent py-2 px-4 rounded-lg font-body font-bold text-light">
-    ADD PET
-</button>
-<!-- Add links to edit user profile and add new pet -->
-{% if user == profile.user %}
-<div id="addPetForm" class="hidden">
+    <button id="toggleAddPetBtn" class="bg-accent py-2 px-4 rounded-lg font-body font-bold text-light">
+        ADD PET
+    </button>
+    <!-- Add links to edit user profile and add new pet -->
     {% if user == profile.user %}
-    <form action="{% url 'pet_create' profile.id %}" method="POST">
-        {% csrf_token %}
-        <!-- Render the inputs -->
-        {{ pet_form.as_p }}
-        <input type="submit" class="btn" value="Add Pet">
-    </form>
+        <div id="addPetForm" class="hidden">
+            <form action="{% url 'pet_create' profile.id %}" method="POST">
+                {% csrf_token %}
+                <!-- Render the inputs -->
+                {{ pet_form.as_p }}
+                <input type="submit" class="btn" value="Add Pet">
+            </form>
+        </div>
+    </div>
     {% endif %}
-  </div> 
-</div>  
-{% endif %}
+</div>
+
 <script>
-    document.getElementById("toggleAddPetBtn").addEventListener("click", function() {
-      var addPetForm = document.getElementById("addPetForm");
-      if (addPetForm.classList.contains("hidden")) {
-        addPetForm.classList.remove("hidden");
-      } else {
-        addPetForm.classList.add("hidden");
-      }
+    document.getElementById("toggleAddPetBtn").addEventListener("click", () => {
+        document.getElementById("addPetForm").classList.toggle("hidden");
     });
-  </script>
+
+    function toggleDropdown(event) {
+        event.stopPropagation();
+        event.currentTarget.nextElementSibling.classList.toggle("hidden");
+    }
+
+    window.addEventListener("click", (event) => {
+        if (!event.target.closest(".dropdown")) {
+            document.querySelectorAll(".dropdown-content").forEach((dropdown) => {
+                dropdown.classList.add("hidden");
+            });
+        }
+    });
+</script>
 {% endblock %}
