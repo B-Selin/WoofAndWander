@@ -1,6 +1,7 @@
 # [Woof and Wander](https://woofandwander-bf1fe9421e1f.herokuapp.com/)
 
-![LogIn](/static/src/images/Home-desktop.png)
+ <img src="/static/src/images/Home-desktop.png" alt="LogIn" width="500"/>
+
 
 The app features tips, and recommendations on various pet-friendly activities, trails, parks, restaurants, patios, and other places where dogs are welcome.
 
@@ -20,10 +21,24 @@ The app features tips, and recommendations on various pet-friendly activities, t
 
 ## Screenshots
 
-![LogIn](/static/src/images/home-mobile.png)
-![Places Index](/static/src/images/places.png)
-![Place Search](/static/src/images/search.png)
-![Profile](/static/src/images/profile.png)
+<table>
+  <tr>
+    <td>
+      <img src="/static/src/images/home-mobile.png" alt="LogIn" width="250"/>
+    </td>
+    <td>
+      <img src="/static/src/images/places.png" alt="Places Index" width="250"/>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="/static/src/images/search.png" alt="Place Search" width="250"/>
+    </td>
+    <td>
+      <img src="/static/src/images/profile.png" alt="Profile" width="250"/>
+    </td>
+  </tr>
+</table>
 
 
 ## Planning Process
