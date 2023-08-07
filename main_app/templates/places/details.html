@@ -44,7 +44,7 @@
 </ul>
 
     <h3 class="text-h6 font-header font-bold">Reviews</h3>
-    <div class="grid grid-cols-2 gap-4" style="max-height: 450px; overflow-y: auto;">
+    <div class="grid grid-cols-2 gap-4 overflow-y-auto max-h-[450px]">
         {% for review in place.review_set.all %}
             <a href="{% url 'profile_details' review.profile.user.id %}">
                 <div class="w-full bg-primary text-dark rounded-lg shadow-md p-4 cursor-pointer">
@@ -64,8 +64,8 @@
             </a>
         {% endfor %}
     </div>
-    <a href="{% url 'review_create' place_pk=place.pk %}">
-        <button class=" rounded">Add Review</button>
-    </a>
+</div>
+<div class="text-center mt-4">
+    <a href="{% url 'review_create' place_pk=place.pk %}" class="bg-accent px-4 py-2 rounded-lg text-light font-bold font-body shadow-md inline-block">SHARE YOUR EXPERIENCE</a>
 </div>
 {% endblock %}
