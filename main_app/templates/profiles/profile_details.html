@@ -7,9 +7,17 @@
     <p class="text-body-lg dp:text-h6">{{profile.user.profile.city}}</p>
     <p class="text-body dp:text-body-lg">{{ contributions }} contributions</p>
     <h3>Favorite Places</h3>
-    {% for favourite in favourites %}
-        <a href="{% url 'place_details' favourite.place.id %}">{{ favourite.place.name }}</a>
-    {% endfor %}
+    {% if favourites %}
+        {% for favourite in favourites %}
+            <a href="{% url 'place_details' favourite.place.id %}">{{ favourite.place.name }}</a>
+        {% endfor %}
+    {% else %}
+        {% if user == profile.user %}
+            <p>You haven't favorited any places yet.</p>
+        {% else %}
+            <p>{{ profile.user.username }} hasn't favorited any places yet.</p>
+        {% endif %}
+    {% endif %}
     <div class="grid grid-cols-1 dp:grid-cols-2 gap-4">
         {% for pet in pets %}
         <div class="bg-primary rounded shadow p-4 flex flex-col text-light relative">
