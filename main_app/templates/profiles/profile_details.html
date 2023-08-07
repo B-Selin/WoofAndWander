@@ -7,29 +7,30 @@
     <p class="text-body-lg dp:text-h6">{{profile.user.profile.city}}</p>
     <p class="text-body dp:text-body-lg">{{ contributions }} contributions</p>
     <div class="mt-4 text-body-lg">
-    <h3 class="font-bold text-h6 dp:text-h5">Favorite Places</h3>
-    {% if favourites %}
+        <h3 class="font-bold text-h6 dp:text-h5">Favorite Places</h3>
+        {% if favourites %}
         {% for favourite in favourites %}
-            <a href="{% url 'place_details' favourite.place.id %}" class="text-accent">{{ favourite.place.name }}</a>
+        <a href="{% url 'place_details' favourite.place.id %}" class="text-accent">{{ favourite.place.name }}</a><br>
         {% endfor %}
-    {% else %}
-        {% if user == profile.user %}
-            <p>You haven't favorited any places yet.</p>
         {% else %}
-            <p>{{ profile.user.username }} hasn't favorited any places yet.</p>
+        {% if user == profile.user %}
+        <p>You haven't favorited any places yet.</p>
+        {% else %}
+        <p>{{ profile.user.username }} hasn't favorited any places yet.</p>
         {% endif %}
-    {% endif %}
+        {% endif %}
     </div>
     <div class="grid grid-cols-1 dp:grid-cols-2 gap-4">
         {% for pet in pets %}
         <div class="bg-primary rounded shadow p-4 flex flex-col text-light relative mt-4">
             <div class="flex items-center justify-between">
-                <div class="flex items-center"> 
+                <div class="flex items-center">
                     <div class="mr-4">
                         {% if pet.photos.all %}
-                            <img src="{{ pet.photos.first.url }}" alt="{{ pet.name }}" class="h-24 rounded-full">
+                        <img src="{{ pet.photos.first.url }}" alt="{{ pet.name }}" class="h-24 rounded-full">
                         {% else %}
-                            <img class="w-4 h-24 rounded-full object-cover bg-light" src="{% static 'src/images/defaultdogavatar.svg' %}" alt="Avatar">
+                        <img class="w-4 h-24 rounded-full object-cover bg-light"
+                            src="{% static 'src/images/defaultdogavatar.svg' %}" alt="Avatar">
                         {% endif %}
                     </div>
                     <div class="ml-4">
@@ -39,65 +40,81 @@
                 </div>
                 <div class="relative inline-block dropdown">
                     {% if user == profile.user %}
-                    <button class="bg-light rounded-lg px-2 py-1 text-body-sm text-dark hover:opacity-90" onclick="toggleDropdown(event)">ACTIONS</button>
-                    <div class="absolute hidden px-4 py-2 shadow-lg rounded text-body bg-light text-dark divide-y divide-dark whitespace-nowrap border border-dark right-0 z-50 mt-2">
-                            {% if pet.photos.all %}
-                                <form action="{% url 'delete_photo' pet.id pet.photos.first.id %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="font-bold">DELETE PHOTO</button>
-                                </form>
-                            {% else %}
-                                <form action="{% url 'add_photo' pet.id %}" enctype="multipart/form-data" method="POST" class="flex flex-col">
-                                    {% csrf_token %}
-                                    <input type="file" name="photo-file" class="mb-2">
-                                    <button type="submit" class="text-accent font-bold">UPLOAD PHOTO</button>
-                                </form>
-                            {% endif %}
-                            <form action="{% url 'pet_edit' pet.id %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="font-bold">EDIT PET</button>
-                            </form>
-                            <form action="{% url 'pet_delete' pet.id %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="font-bold">DELETE PET</button>
-                            </form>
+                    <button class="bg-light rounded-lg px-2 py-1 text-body-sm text-dark hover:opacity-90"
+                        onclick="toggleDropdown(event)">ACTIONS</button>
+                    <div
+                        class="absolute hidden px-4 py-2 shadow-lg rounded text-body bg-light text-dark divide-y divide-dark whitespace-nowrap border border-dark right-0 z-50 mt-2">
+                        {% if pet.photos.all %}
+                        <form action="{% url 'delete_photo' pet.id pet.photos.first.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="font-bold">DELETE PHOTO</button>
+                        </form>
+                        {% else %}
+                        <form action="{% url 'add_photo' pet.id %}" enctype="multipart/form-data" method="POST"
+                            class="flex flex-col">
+                            {% csrf_token %}
+                            <input type="file" name="photo-file" class="mb-2">
+                            <button type="submit" class="text-accent font-bold">UPLOAD PHOTO</button>
+                        </form>
+                        {% endif %}
+                        <form action="{% url 'pet_edit' pet.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="font-bold">EDIT PET</button>
+                        </form>
+                        <form action="{% url 'pet_delete' pet.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="font-bold">DELETE PET</button>
+                        </form>
                     </div>
                     {% endif %}
                 </div>
             </div>
-            </div>
+        </div>
         {% endfor %}
     </div>
     <!-- Add links to edit user profile and add new pet -->
     {% if user == profile.user %}
-    <button id="toggleAddPetBtn" class="bg-secondary py-2 px-4 rounded-lg font-body mt-4 font-bold text-light hover:opacity-90">ADD PET &#x25BE;</button>
-        <div id="addPetForm" class="hidden mt-4">
-            <form action="{% url 'pet_create' profile.id %}" method="POST" class="flex flex-col font-body text-dark">
-                {% csrf_token %}
-                <input type="text" name="{{ pet_form.name.html_name }}" class="text-body-lg border-dark border-2 bg-light text-dark placeholder-dark focus:ring-secondary rounded-lg mb-2" placeholder="Name" value="{{ pet_form.name.value|default:'' }}">
-                <input type="text" name="{{ pet_form.breed.html_name }}" class="text-body-lg border-dark border-2 bg-light text-dark placeholder-dark focus:ring-secondary rounded-lg" placeholder="Breed" value="{{ pet_form.breed.value|default:'' }}">
-                <div class="">
-                    <button type="submit" class="bg-accent mt-4 py-2 px-4 rounded-lg font-bold text-light shadow-md hover:opacity-90">SUBMIT</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <button id="toggleSearchCityBtn" class="rounded-lg font-body font-bold text-darkt hover:text-accent hover:opacity-90 ml-4 mt-2">CHANGE LOCATION &#x25BE;</button>
-    <div id="searchCityForm" class="hidden mt-4 ml-4">
-        <form id="city-form" method="POST" action="{% url 'search_city' %}">
+    <button id="toggleAddPetBtn"
+        class="bg-secondary py-2 px-4 rounded-lg font-body mt-4 font-bold text-light hover:opacity-90">ADD PET
+        &#x25BE;</button>
+    <div id="addPetForm" class="hidden mt-4">
+        <form action="{% url 'pet_create' profile.id %}" method="POST" class="flex flex-col font-body text-dark">
             {% csrf_token %}
-            <input id="city-search" type="text" name="city" placeholder="Search for your city" class="text-body-lg pr-16 dp:pr-20 bg-light text-dark placeholder-dark border-dark border-2 rounded-lg">
-            <input type="hidden" name="lat" id="city-lat">
-            <input type="hidden" name="lng" id="city-lng">
-            <div class="w-full flex mt-4">
-                <button type="submit" class="bg-accent rounded-md px-4 py-2 text-light font-bold drop-shadow-sm hover:bg-opacity-90">CONFIRM CITY</button>
+            <input type="text" name="{{ pet_form.name.html_name }}"
+                class="text-body-lg border-dark border-2 bg-light text-dark placeholder-dark focus:ring-secondary rounded-lg mb-2"
+                placeholder="Name" value="{{ pet_form.name.value|default:'' }}">
+            <input type="text" name="{{ pet_form.breed.html_name }}"
+                class="text-body-lg border-dark border-2 bg-light text-dark placeholder-dark focus:ring-secondary rounded-lg"
+                placeholder="Breed" value="{{ pet_form.breed.value|default:'' }}">
+            <div class="">
+                <button type="submit"
+                    class="bg-accent mt-4 py-2 px-4 rounded-lg font-bold text-light shadow-md hover:opacity-90">SUBMIT</button>
             </div>
         </form>
     </div>
-    <div class="m-4 mt-8">
-        <a href="{% url 'logout' %}" class="py-2 px-4 bg-light font-bold border-dark border-2 rounded-lg hover:text-accent">LOG OUT</a>
-    </div>
-    {% endif %}
+</div>
+<button id="toggleSearchCityBtn"
+    class="rounded-lg font-body font-bold text-darkt hover:text-accent hover:opacity-90 ml-4 mt-2">CHANGE LOCATION
+    &#x25BE;</button>
+<div id="searchCityForm" class="hidden mt-4 ml-4">
+    <form id="city-form" method="POST" action="{% url 'search_city' %}">
+        {% csrf_token %}
+        <input id="city-search" type="text" name="city" placeholder="Search for your city"
+            class="text-body-lg pr-16 dp:pr-20 bg-light text-dark placeholder-dark border-dark border-2 rounded-lg">
+        <input type="hidden" name="lat" id="city-lat">
+        <input type="hidden" name="lng" id="city-lng">
+        <div class="w-full flex mt-4">
+            <button type="submit"
+                class="bg-accent rounded-md px-4 py-2 text-light font-bold drop-shadow-sm hover:bg-opacity-90">CONFIRM
+                CITY</button>
+        </div>
+    </form>
+</div>
+<div class="m-4 mt-8">
+    <a href="{% url 'logout' %}"
+        class="py-2 px-4 bg-light font-bold border-dark border-2 rounded-lg hover:text-accent">LOG OUT</a>
+</div>
+{% endif %}
 </div>
 
 <script>
@@ -122,21 +139,21 @@
         document.getElementById("searchCityForm").classList.toggle("hidden");
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-    const input = document.getElementById('city-search');
-    const autocomplete = new google.maps.places.Autocomplete(input, {types: ['(cities)']});
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('city-search');
+        const autocomplete = new google.maps.places.Autocomplete(input, { types: ['(cities)'] });
 
-    google.maps.event.addListener(autocomplete, 'place_changed', function() {
-      const place = autocomplete.getPlace();
-      const lat = place.geometry.location.lat();
-      const lng = place.geometry.location.lng();
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            const place = autocomplete.getPlace();
+            const lat = place.geometry.location.lat();
+            const lng = place.geometry.location.lng();
 
-      document.getElementById('city-lat').value = lat;
-      document.getElementById('city-lng').value = lng;
+            document.getElementById('city-lat').value = lat;
+            document.getElementById('city-lng').value = lng;
+        });
+
+        document.getElementById('city-form').addEventListener('submit', function (event) {
+        });
     });
-
-    document.getElementById('city-form').addEventListener('submit', function(event) {
-    });
-  });
 </script>
 {% endblock %}
