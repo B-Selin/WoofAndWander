@@ -1,4 +1,8 @@
 # [Woof and Wander](https://woofandwander-bf1fe9421e1f.herokuapp.com/)
+
+<!-- add static/src/images/Screenshot 2023-08-07 at 2.13.57 PM.png -->
+![Landing Page](/static/src/images/Screenshot 2023-08-07 at 2.13.57 PM.png)
+
 The app features tips, and recommendations on various pet-friendly activities, trails, parks, restaurants, patios, and other places where dogs are welcome.
 
 ### Features
@@ -16,6 +20,7 @@ The app features tips, and recommendations on various pet-friendly activities, t
 5. Show off your furry friends
 
 ## Screenshots
+
 
 
 ## Planning Process
