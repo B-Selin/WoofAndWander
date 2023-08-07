@@ -8,22 +8,38 @@ The app features tips, and recommendations on various pet-friendly activities, t
 - Show off your pets for other users to see
 - Save places to your favorites
 
+### How to Use
+1. Search for your city
+2. View user-generated places or contribute your own
+3. Help other Woof & Wander users by reviewing establishments
+4. Show off your furry friends
+
 ## Screenshots
 
 
 ## Planning Process
 - Visit our [Trello board](https://trello.com/b/fweFLvEm/woof-wander) to view tasks and progress.
-- View our idea pitch [here](https://www.canva.com/design/DAFp4qZSUjQ/f8v0nU1umbpiq07k-k1-Gg/edit?utm_source=shareButton&utm_medium=email&utm_campaign=designshare).
-
+- View our idea [pitch deck](https://www.canva.com/design/DAFp4qZSUjQ/f8v0nU1umbpiq07k-k1-Gg/edit?utm_source=shareButton&utm_medium=email&utm_campaign=designshare).
+- View our [wireframes](https://www.figma.com/file/fhchlYVpvGwCMJq6ka1b3v/Woof-%26-Wander?type=design&node-id=100%3A7&mode=design&t=FRZwsplBm3p01CTF-1).
 
 ### Technologies
-- Django ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
-- PostgreSQL ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) 
-- Google Maps API ![Google Maps](https://img.shields.io/badge/Google%20Maps-4285F4?style=for-the-badge&logo=google%20maps&logoColor=white)
-- Google Places API ![Google Cloud](https://img.shields.io/badge/Google%20Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)
-- Tailwind CSS ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
-- Python ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+Frontend Development:
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 
+Backend Development:
+![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) 
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+
+APIs and Services:
+![Google Maps](https://img.shields.io/badge/Google%20Maps-4285F4?style=for-the-badge&logo=google%20maps&logoColor=white)
+![Google Cloud](https://img.shields.io/badge/Google%20Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+
+Design and Testing Tools:
+![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
 
 ### IceBox features
 - [ ] Users can create activities and events
