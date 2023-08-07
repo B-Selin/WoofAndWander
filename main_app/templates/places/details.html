@@ -11,6 +11,7 @@
         {{ avg_rating|floatformat }}/5 stars
         {% endif %}
     </p>
+    <a href="https://www.google.com/maps/search/?api=1&query={{ place.address}}" target="_blank" class="bg-secondary text-light font-bold px-4 py-2 rounded-md">DIRECTIONS</a>
     {% if is_favourite %}
 
     <form action="{% url 'remove_favourite' place.id %}" method="POST">
