@@ -6,7 +6,7 @@
     <form action="{% url 'review_create' place_pk=place_pk %}" method="POST" class="flex flex-col font-body text-dark">
         {% csrf_token %}
         <label for="rating" class="text-h6 dp:text-h5">Date visited:</label>
-        <input type="date" name="date class="">
+        <input type="date" name="date" class="">
         <label for="rating" class="text-h6 dp:text-h5">Overall:</label>
         <input type="number" name="rating" min="1" max="5">
         <label for="reviews" class="text-h6 dp:text-h5 ">Comments:</label>
