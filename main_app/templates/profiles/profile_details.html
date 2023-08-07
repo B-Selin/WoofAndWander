@@ -29,7 +29,7 @@
                 </div>
                 <div class="relative inline-block dropdown">
                     <button class="bg-light rounded-lg px-2 py-1 text-body-sm text-dark" onclick="toggleDropdown(event)">ACTIONS</button>
-                    <div class="absolute hidden px-4 py-2 shadow-lg rounded text-body bg-light text-dark divide-y divide-dark whitespace-nowrap border border-dark z-50 mt-2">
+                    <div class="absolute hidden px-4 py-2 shadow-lg rounded text-body bg-light text-dark divide-y divide-dark whitespace-nowrap border border-dark right-0 z-50 mt-2">
                         {% if user == profile.user %}
                             {% if pet.photos.all %}
                                 <form action="{% url 'delete_photo' pet.id pet.photos.first.id %}" method="post">
