@@ -9,10 +9,11 @@ The app features tips, and recommendations on various pet-friendly activities, t
 - Save places to your favorites
 
 ### How to Use
-1. Search for your city
-2. View user-generated places or contribute your own
-3. Help other Woof & Wander users by reviewing establishments
-4. Show off your furry friends
+1. Launch our [deployed site](https://woofandwander-bf1fe9421e1f.herokuapp.com/)
+2. Search for your city
+3. View user-generated places or contribute your own
+4. Help other Woof & Wander users by reviewing establishments
+5. Show off your furry friends
 
 ## Screenshots
 
@@ -23,21 +24,21 @@ The app features tips, and recommendations on various pet-friendly activities, t
 - View our [wireframes](https://www.figma.com/file/fhchlYVpvGwCMJq6ka1b3v/Woof-%26-Wander?type=design&node-id=100%3A7&mode=design&t=FRZwsplBm3p01CTF-1).
 
 ### Technologies
-Frontend Development:
+Frontend Development:<br>
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 
-Backend Development:
+Backend Development:<br>
 ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
-APIs and Services:
+APIs and Services:<br>
 ![Google Maps](https://img.shields.io/badge/Google%20Maps-4285F4?style=for-the-badge&logo=google%20maps&logoColor=white)
 ![Google Cloud](https://img.shields.io/badge/Google%20Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
-Design and Testing Tools:
+Design and Testing Tools:<br>
 ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
 
