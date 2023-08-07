@@ -42,22 +42,22 @@
                             {% if pet.photos.all %}
                                 <form action="{% url 'delete_photo' pet.id pet.photos.first.id %}" method="post">
                                     {% csrf_token %}
-                                    <button type="submit" class="font-bold">Remove Photo</button>
+                                    <button type="submit" class="font-bold">DELETE PHOTO</button>
                                 </form>
                             {% else %}
                                 <form action="{% url 'add_photo' pet.id %}" enctype="multipart/form-data" method="POST" class="flex flex-col">
                                     {% csrf_token %}
                                     <input type="file" name="photo-file" class="mb-2">
-                                    <button type="submit" class="text-accent font-bold">Upload Photo</button>
+                                    <button type="submit" class="text-accent font-bold">UPLOAD PHOTO</button>
                                 </form>
                             {% endif %}
-                            <form action="{% url 'pet_delete' pet.id %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="font-bold">Remove Pet</button>
-                            </form>
                             <form action="{% url 'pet_edit' pet.id %}" method="post">
                                 {% csrf_token %}
-                                <button type="submit" class="font-bold">Edit Pet</button>
+                                <button type="submit" class="font-bold">EDIT PET</button>
+                            </form>
+                            <form action="{% url 'pet_delete' pet.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="font-bold">DELETE PET</button>
                             </form>
                     </div>
                     {% endif %}
